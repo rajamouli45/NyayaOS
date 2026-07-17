@@ -1,0 +1,6 @@
+packages:
+  - "apps/*"
+  - "platform/*"
+  - "packages/*"
+  - "agents/*"
+  - "mcp/*"
