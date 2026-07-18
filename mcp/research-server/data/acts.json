@@ -1,0 +1,26 @@
+[
+    {
+        "act": "Transfer of Property Act",
+        "section": "54",
+        "title": "Sale of Immovable Property",
+        "content": "Sale of immovable property of the value of one hundred rupees and upwards can be made only by a registered instrument. Delivery of tangible immovable property takes place when the seller places the buyer in possession.",
+        "keywords": [
+            "sale",
+            "registered",
+            "property",
+            "possession"
+        ]
+    },
+    {
+        "act": "Specific Relief Act",
+        "section": "6",
+        "title": "Suit by person dispossessed of immovable property",
+        "content": "If any person is dispossessed without his consent of immovable property otherwise than in due course of law, he or any person claiming through him may, by suit, recover possession thereof.",
+        "keywords": [
+            "possession",
+            "dispossessed",
+            "recovery",
+            "suit"
+        ]
+    }
+]

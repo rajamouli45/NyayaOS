@@ -1,0 +1,38 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "#contracts": [
+                "./packages/contracts/src/index.ts"
+            ],
+            "#agents": [
+                "./agents/plugins/index.ts"
+            ],
+            "@nitrostack/core": [
+                "c:/Users/rajam/Downloads/Hackthon/nitrostack/typescript/packages/core/dist/core/index.d.ts"
+            ],
+            "@nitrostack/core/testing": [
+                "c:/Users/rajam/Downloads/Hackthon/nitrostack/typescript/packages/core/dist/testing/index.d.ts"
+            ]
+        },
+        "typeRoots": [
+            "c:/Users/rajam/Downloads/Hackthon/nitrostack/typescript/node_modules/@types"
+        ]
+    },
+    "include": [
+        "packages/contracts/src/**/*",
+        "packages/api/src/**/*",
+        "agents/plugins/**/*",
+        "platform/**/*",
+        "mcp/identity-server/src/**/*",
+        "mcp/document-server/src/**/*",
+        "mcp/registry-server/src/**/*",
+        "mcp/research-server/src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "mcp/*/src/widgets/**/*",
+        "mcp/server-template/**/*"
+    ]
+}

@@ -3,11 +3,17 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "turbo run dev",
-        "build": "turbo run build",
+        "dev": "node platform/index.js",
+        "api": "node packages/api/src/index.js",
+        "build": "tsc --build",
         "lint": "turbo run lint --continue",
         "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
-        "typecheck": "turbo run typecheck"
+        "typecheck": "turbo run typecheck",
+        "validate-terms": "node scripts/validate_terminology.js"
+    },
+    "imports": {
+        "#contracts": "./packages/contracts/dist/index.js",
+        "#agents": "./agents/dist/plugins/index.js"
     },
     "devDependencies": {
         "typescript": "^5.7.2",

@@ -1,0 +1,19 @@
+{
+    "name": "@nyayaos/platform",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "@nyayaos/contracts": "workspace:*",
+        "@nyayaos/agents": "workspace:*"
+    },
+    "devDependencies": {
+        "typescript": "^5.7.2",
+        "tsx": "^4.19.2"
+    }
+}

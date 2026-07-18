@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyayaOS | Citizen Dispute Portal</title>
+    <!-- Google Fonts Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="background-decor-1"></div>
+    <div class="background-decor-2"></div>
+
+    <header class="app-header">
+        <div class="header-left">
+            <div class="logo">
+                <span class="scale-icon">⚖️</span>
+                <h1>NyayaOS <span class="badge">KERNEL MVP</span></h1>
+            </div>
+            <p class="subtitle">The Agentic Operating System for Justice</p>
+        </div>
+        <div class="header-right-buttons" style="display: flex; gap: 10px; align-items: center;">
+            <a href="/judge/" class="btn-arch"
+                style="text-decoration: none; display: flex; align-items: center; justify-content: center;">🏛️ Access
+                Judge Dashboard</a>
+            <button class="btn-arch" id="openModalBtn">📂 View Architecture Map</button>
+        </div>
+    </header>
+
+    <main class="portal-container">
+        <!-- LEFT COLUMN: SUBMISSION FORM -->
+        <section class="card form-card">
+            <h2>Submit New Dispute</h2>
+            <p class="section-desc">Provide details and select simulation presets to initiate automated case
+                verification.</p>
+
+            <form id="disputeForm">
+                <div class="form-group">
+                    <label for="caseType">Case Type</label>
+                    <div class="select-wrapper">
+                        <select id="caseType" required>
+                            <option value="Property Dispute">Property Dispute (Standard Title Issue)</option>
+                            <option value="Consumer Complaint">Consumer Complaint (Registry Verification)</option>
+                            <option value="Cheque Bounce">Cheque Bounce (Financial Validation)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Demo Simulation Scenario</label>
+                    <div class="scenario-cards-grid">
+                        <label class="scenario-card active">
+                            <input type="radio" name="demoProfile" value="happy_path" checked>
+                            <div class="card-option-content">
+                                <span class="emoji">😊</span>
+                                <span class="title">Happy Path</span>
+                                <span class="desc">Complete successful case review</span>
+                            </div>
+                        </label>
+                        <label class="scenario-card">
+                            <input type="radio" name="demoProfile" value="missing_documents">
+                            <div class="card-option-content">
+                                <span class="emoji">📄</span>
+                                <span class="title">Missing Deed</span>
+                                <span class="desc">Citizen forgets to append Sale Deed</span>
+                            </div>
+                        </label>
+                        <label class="scenario-card">
+                            <input type="radio" name="demoProfile" value="wrong_jurisdiction">
+                            <div class="card-option-content">
+                                <span class="emoji">🏛</span>
+                                <span class="title">Jurisdiction</span>
+                                <span class="desc">Filing in wrong territorial court</span>
+                            </div>
+                        </label>
+                        <label class="scenario-card">
+                            <input type="radio" name="demoProfile" value="identity_failure">
+                            <div class="card-option-content">
+                                <span class="emoji">🪪</span>
+                                <span class="title">Identity Mismatch</span>
+                                <span class="desc">Name doesn't match bio-database</span>
+                            </div>
+                        </label>
+                        <label class="scenario-card">
+                            <input type="radio" name="demoProfile" value="duplicate_filing">
+                            <div class="card-option-content">
+                                <span class="emoji">📂</span>
+                                <span class="title">Duplicate filing</span>
+                                <span class="desc">Active dispute already exists</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- SECTION 1: APPLICANT DETAILS -->
+                <div class="form-section">
+                    <div class="form-section-title">👤 Plaintiff / Applicant Details</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="plaintiffName">Plaintiff Full Name</label>
+                            <input type="text" id="plaintiffName" value="Rajesh Kumar" placeholder="e.g. Rajesh Kumar"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="citizenId">Aadhaar ID / Citizen ID</label>
+                            <input type="text" id="citizenId" value="cit-9988" placeholder="e.g. cit-9988" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: RESPONDENT DETAILS -->
+                <div class="form-section">
+                    <div class="form-section-title">⚖️ Defendant / Respondent Details</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="defendantName">Defendant Full Name</label>
+                            <input type="text" id="defendantName" value="Mahesh Reddy" placeholder="e.g. Mahesh Reddy"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="defendantId">Aadhaar ID / Defendant ID</label>
+                            <input type="text" id="defendantId" value="cit-7541" placeholder="e.g. cit-7541" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: DISPUTED PROPERTY DETAILS -->
+                <div class="form-section">
+                    <div class="form-section-title">🏡 Disputed Property Details</div>
+                    <div class="form-grid-three">
+                        <div class="form-group">
+                            <label for="propertyId">Property Plot ID</label>
+                            <input type="text" id="propertyId" value="plot-7412A" placeholder="e.g. plot-7412A"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="surveyNumber">Survey Number</label>
+                            <input type="text" id="surveyNumber" value="SY-114/2" placeholder="e.g. SY-114/2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registrationNumber">Land Reg. Number</label>
+                            <input type="text" id="registrationNumber" value="REG-2021-98441"
+                                placeholder="e.g. REG-2021-98441" required>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="propertyArea">Property Area</label>
+                            <input type="text" id="propertyArea" value="2400 sq.ft" placeholder="e.g. 2400 sq.ft"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="propertyVillage">Village / Locality</label>
+                            <input type="text" id="propertyVillage" value="Whitefield" placeholder="e.g. Whitefield"
+                                required>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="propertyDistrict">District</label>
+                            <input type="text" id="propertyDistrict" value="Bengaluru Urban"
+                                placeholder="e.g. Bengaluru Urban" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="propertyState">State</label>
+                            <input type="text" id="propertyState" value="Karnataka" placeholder="e.g. Karnataka"
+                                required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4: CASE DETAILS -->
+                <div class="form-section">
+                    <div class="form-section-title">🏛️ Judicial Case Details</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="courtName">Filing Court</label>
+                            <input type="text" id="courtName" value="Bengaluru District Court"
+                                placeholder="e.g. Bengaluru District Court" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Court Jurisdiction Location</label>
+                            <input type="text" id="location" value="Bengaluru, Karnataka"
+                                placeholder="e.g. Bengaluru, Karnataka" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Dispute Description Summary</label>
+                        <textarea id="description" rows="2" placeholder="Describe the dispute background..."
+                            required>title dispute possession</textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 5: EVIDENCE DOCUMENT UPLOAD -->
+                <div class="form-section">
+                    <div class="form-section-title">📄 Evidence Document Attachment</div>
+                    <div class="form-group">
+                        <div class="file-uploader" id="dropzone">
+                            <input type="file" id="fileInput" accept=".pdf">
+                            <div class="upload-inner">
+                                <span class="upload-icon">📁</span>
+                                <div class="upload-label"><strong class="highlight">Choose pdf file</strong> or drag &
+                                    drop</div>
+                                <div class="upload-hint">Upload LandSaleDeed_RajeshKumar.pdf</div>
+                            </div>
+                        </div>
+                        <div class="file-selected-badge" id="fileBadge" style="display: none;">
+                            <span class="file-info">📎 <span
+                                    id="fileNameDisplay">LandSaleDeed_RajeshKumar.pdf</span></span>
+                            <button type="button" class="btn-clear-file" id="clearFileBtn">✕</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI SUBMISSION READINESS & REVIEW SUMMARY PANELS -->
+                <div class="readiness-card" id="readinessCard">
+                    <div class="readiness-header">
+                        <span class="readiness-title">🤖 AI Submission Readiness Analysis</span>
+                        <span id="readinessStatusBadge" class="readiness-status-badge status-ready">READY TO FILE</span>
+                    </div>
+                    <div class="readiness-body">
+                        <div class="readiness-checkpoint" id="chk-parties">✓ Parties: Plaintiff & Defendant defined
+                        </div>
+                        <div class="readiness-checkpoint" id="chk-property">✓ Property: Plot, Survey & Coordinates
+                            complete</div>
+                        <div class="readiness-checkpoint" id="chk-case">✓ Case: Court jurisdiction correct</div>
+                        <div class="readiness-checkpoint" id="chk-deed">✓ Attachment: Land Sale Deed appended</div>
+                    </div>
+                </div>
+
+                <div class="submission-review-card" id="reviewCard">
+                    <div
+                        style="font-weight: 700; font-size: 0.85rem; color: var(--accent-teal); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        ✓ Live Draft Submission Preview</div>
+                    <div style="display: flex; gap: 15px; font-size: 0.8rem; color: var(--text-muted);">
+                        <div><strong>Plaintiff:</strong> <span id="val-plaintiff">Rajesh Kumar</span></div>
+                        <div><strong>Respondent:</strong> <span id="val-defendant">Mahesh Reddy</span></div>
+                        <div><strong>Deed Year:</strong> <span id="val-deed-year">2022</span></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span class="btn-text">Initiate NyayaOS Workflow</span>
+                    <div class="btn-loader" style="display: none;"></div>
+                </button>
+            </form>
+        </section>
+
+        <!-- RIGHT COLUMN: STREAMING LOGS AND PIPELINE -->
+        <section class="card execution-card" id="executionDashboard">
+            <div class="exec-placeholder" id="dashboardPlaceholder">
+                <span class="placeholder-icon">⚖️</span>
+                <h3>Workflow Status: Idle</h3>
+                <p>Submit a dispute form to trigger the Judicial Kernel and log to the Judicial Memory Bus.</p>
+            </div>
+
+            <div class="exec-content" id="dashboardContent" style="display: none;">
+                <div class="exec-header">
+                    <div class="status-indicator">
+                        <span class="pulse-indicator status-live" id="workflowPulse"></span>
+                        <div>
+                            <h3 id="execIdBanner"
+                                style="margin: 0; font-size: 1.1rem; font-weight: 700; color: var(--text-main);">
+                                Workflow Status</h3>
+                            <div style="font-size: 0.8rem; color: var(--accent); margin-top: 4px; font-weight: 600;">
+                                Status: <span id="currentStatusLabel">Running...</span></div>
+                        </div>
+                    </div>
+                    <span class="badge badge-running" id="workflowStatusBadge">RUNNING</span>
+                </div>
+
+                <!-- STATE PIPELINE STEPS FLOWCHART GRAPH -->
+                <div class="pipeline-section">
+                    <h4 id="workflowTitleBanner">Workflow Status Flow</h4>
+                    <div class="live-flowchart">
+                        <div class="flowchange-node" id="node-start">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title">Citizen Submission</div>
+                                <div class="node-subtitle">Workflow Started</div>
+                                <div class="node-tech">Judicial Kernel</div>
+                            </div>
+                        </div>
+                        <div class="flowchart-connector" id="connector-1"></div>
+
+                        <div class="flowchange-node" id="node-identity">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title">Identity Check</div>
+                                <div class="node-subtitle">Identity Service</div>
+                                <div class="node-tech">Identity MCP</div>
+                            </div>
+                        </div>
+                        <div class="flowchart-connector" id="connector-2"></div>
+
+                        <div class="flowchange-node" id="node-document">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title">Document Validation</div>
+                                <div class="node-subtitle">Document Service</div>
+                                <div class="node-tech">Document MCP</div>
+                            </div>
+                        </div>
+                        <div class="flowchart-connector" id="connector-3"></div>
+
+                        <div class="flowchange-node" id="node-registry">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title">Registry Check</div>
+                                <div class="node-subtitle">Registry Service</div>
+                                <div class="node-tech">Registry MCP</div>
+                            </div>
+                        </div>
+                        <div class="flowchart-connector" id="connector-4"></div>
+
+                        <div class="flowchange-node" id="node-research">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title">Precedent Research</div>
+                                <div class="node-subtitle">Research Service</div>
+                                <div class="node-tech">Legal Research MCP</div>
+                            </div>
+                        </div>
+                        <div class="flowchart-connector" id="connector-5"></div>
+
+                        <div class="flowchange-node" id="node-judge">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title font-small">Case Ready</div>
+                                <div class="node-subtitle">Workflow Completed</div>
+                                <div class="node-tech">Published to Judicial Memory Bus</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EVENT HISTORY TIMELINE LOGS -->
+                <div class="timeline-section">
+                    <h4>Live Logs / Events Feed (Event Store)</h4>
+                    <div class="timeline-logs" id="logsFeed">
+                        <!-- Streamed events go here -->
+                    </div>
+                </div>
+
+                <!-- EXPLAINABILITY AUDIT TRAIL RESULT -->
+                <div class="result-section" id="resultCard" style="display: none;">
+                    <h4>Explainability Summary</h4>
+                    <pre class="audit-result" id="auditTrailText"></pre>
+                    <div class="final-verdict" id="finalVerdict">
+                        <strong>Verdict:</strong> Case accepted for judicial registry review.
+                    </div>
+                    <div
+                        style="font-size: 0.72rem; color: var(--text-muted); margin-top: 8px; text-align: right; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">
+                        Powered by Explainability Engine</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ARCHITECTURE DIAGRAM MODAL -->
+    <div id="archModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModalBtn">&times;</span>
+            <h3>NyayaOS Kernel Engineering Map</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; text-align: center;">
+                Real-Time Decentralized Agent Swarm Orchestration Stack
+            </p>
+            <div class="arch-flowchart">
+                <div class="arch-box">Citizen Portal UI</div>
+                <div class="arch-line">↓ (Case Payload Submission)</div>
+                <div class="arch-box highlight">REST API (Express App)</div>
+                <div class="arch-line">↓ (Engine Instantiation)</div>
+                <div class="arch-box accent">Workflow Engine (Orchestrator)</div>
+                <div class="arch-line">↓ (STDIO Life hooks)</div>
+                <div class="arch-nested-container">
+                    <div class="arch-inner-box">Identity MCP Server</div>
+                    <div class="arch-inner-box">Document MCP Server</div>
+                    <div class="arch-inner-box">Registry MCP Server</div>
+                    <div class="arch-inner-box">Research MCP Server</div>
+                </div>
+                <div class="arch-line">↓ (State Change Broadcasting & Write)</div>
+                <div class="arch-row-split">
+                    <div class="arch-left-split">
+                        <div class="arch-box status">SSE Client streams</div>
+                    </div>
+                    <div class="arch-right-split">
+                        <div class="arch-box status">JSON db.json Storage</div>
+                    </div>
+                </div>
+                <div class="arch-line">↓ (Case Loading & Download)</div>
+                <div class="arch-box highlight">Judge Dashboard</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer-bottom">
+        <p>&copy; 2026 NyayaOS Project. Built with NitroStack framework.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

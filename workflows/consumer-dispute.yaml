@@ -1,0 +1,11 @@
+id: consumer-dispute
+steps:
+  - id: step-identity
+    agentName: IdentityAgent
+    required: true
+  - id: step-document
+    agentName: DocumentAgent
+    required: true
+  - id: step-registry
+    agentName: RegistryAgent
+    required: true

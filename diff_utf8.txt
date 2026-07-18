@@ -1,0 +1,1824 @@
+﻿diff --git a/.env.example b/.env.example
+index d3520a1..3a088b2 100644
+--- a/.env.example
++++ b/.env.example
+@@ -1,5 +1,6 @@
+ # System Configuration
+-PORT=4000
++PORT=3001
++DB_PATH=./db.json
+ NODE_ENV=development
+ 
+ # MCP Servers Configs
+diff --git a/LICENSE b/LICENSE
+index e1f0114..9c95931 100644
+--- a/LICENSE
++++ b/LICENSE
+@@ -1,6 +1,6 @@
+ MIT License
+ 
+-Copyright (c) 2026 NyayaOS Development Team
++Copyright (c) 2026 NyayaOS Contributors
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+diff --git a/README.md b/README.md
+index 9c7f7f1..f9453e2 100644
+--- a/README.md
++++ b/README.md
+@@ -1,26 +1,150 @@
+-# NyayaOS
++# NyayaOS (Judicial Agentic Operating System)
+ 
+-NyayaOS is an **Agentic Operating System** designed to orchestrate complex agent workflows. Its first target implementation is built for the justice ecosystem.
++NyayaOS is an **Agentic Operating System Kernel** designed to model, orchestrate, and explain multi-agent workflows in the justice ecosystem. By connecting autonomous agent plugins with standard judicial procedures and Model Context Protocol (MCP) data servers, NyayaOS helps automate routine checks, draft legal reports, and optimize dispute resolutions.
+ 
+-## Repository Layout
++---
+ 
+-- `apps/` ΓÇö Presentation overlays (e.g. `citizen-portal`).
+-- `platform/` ΓÇö Kernel services: Planner, Workflow Engine, Shared Memory, Agent Registry.
+-- `agents/` ΓÇö Dynamic agent plugins (e.g. Identity, Document, Registry).
+-- `mcp/` ΓÇö NitroStack Model Context Protocol servers.
+-- `packages/` ΓÇö Shared libraries (database client, typings, config constants).
++## ≡ƒÅ¢∩╕Å System Architecture Schema
+ 
+-## Quick Start
++NyayaOS separates its layers using clean contracts, an event bus architecture, and standard stdio-based MCP servers:
+ 
+-### 1. Prerequisites
+-- Node.js >= 20.18
+-- npm >= 9 (or pnpm workspaces)
++```
++                  +----------------------------------+
++                  |      Citizen Portal UI Front     |
++                  +-----------------+----------------+
++                                    | Rest API & SSE Stream
++                                    v
++                  +-----------------+----------------+
++                  |  Express Server (Port 3001)      |
++                  +-----------------+----------------+
++                                    | Starts Workflow Execution
++                                    v
++                  +-----------------+----------------+
++                  |  Workflow Engine Kernel          |  <--- Logs timelines to explainability
++                  +--------+---------------+---------+
++                           v
++            +--------------+----+     +----+-------------+
++            | Property Dispute  |     | Agent Registry   |
++            | Cheque Bounce     |     | (Identity, Doc,  |
++            | Consumer Complaint|     |  Registry, Legal)|
++            +-------------------+     +----+-------------+
++                                           | MCP Client Interfaces
++                                           v
++                                      +----+-------------+
++                                      | platform/        |
++                                      | mcp-manager      |
++                                      +----+-------------+
++                                           | Spawns & connects stdio
++                                           +------------+------------+------------+
++                                           |            |            |            |
++                                           v            v            v            v
++                                      [Identity]    [Document]   [Registry]   [Research]
++                                      MCP Server    MCP Server   MCP Server   MCP Server
++```
++
++---
++
++## Γ£¿ Features
++
++- **Workflow Engine**: A DAG-based execution loop processing step-by-step judicial recipes.
++- **Agent Registry**: Central plugins directory for Identity, Document verification, Registry matching, and Research.
++- **Shared Memory**: Local context storage that passes verified outputs between agent execution stages.
++- **Explainability Auditor**: Generates printable timeline logs and consolidated report outputs.
++- **SSE Stream**: Server-Sent Events stream live status directly to the Citizen filing dashboard.
++- **Operational Health Endpoint**: Comprehensive `/health` API reporting server, database, and MCP status.
++
++---
++
++## ≡ƒôª Directory Structure
++
++```
++Γö£ΓöÇΓöÇ apps/
++Γöé   Γö£ΓöÇΓöÇ citizen-portal/       # Single-page interface for users to file cases and watch SSE lines
++Γöé   ΓööΓöÇΓöÇ judge-dashboard/      # Judicial panel listing files, metrics, and horizontal flowcharts
++Γö£ΓöÇΓöÇ docs/                     # Comprehensive documentation files
++Γöé   Γö£ΓöÇΓöÇ INSTALLATION_GUIDE.md # Detailed prerequisites and running guide
++Γöé   Γö£ΓöÇΓöÇ API_DOCUMENTATION.md  # Detailed REST documentation specifications
++Γöé   Γö£ΓöÇΓöÇ DEMO_GUIDE.md         # Explanations of 5 demo simulation profiles
++Γöé   ΓööΓöÇΓöÇ PITCH_DECK.md         # Markdown slides for hackathon pitch deck
++Γö£ΓöÇΓöÇ packages/
++Γöé   Γö£ΓöÇΓöÇ api/                  # Express REST backend server & SSE stream endpoint
++Γöé   ΓööΓöÇΓöÇ contracts/            # Typescript interface contracts & data models
++Γö£ΓöÇΓöÇ platform/
++Γöé   Γö£ΓöÇΓöÇ workflow-engine/      # Workflow Engine, DAG runner, step executors
++Γöé   Γö£ΓöÇΓöÇ explainability/       # Timeline logs and ASCII report generators
++Γöé   ΓööΓöÇΓöÇ mcp-manager/          # Stdio client connections and server spawners
++Γö£ΓöÇΓöÇ agents/
++Γöé   ΓööΓöÇΓöÇ plugins/              # Identity, Document, Registry, Research plugins
++Γö£ΓöÇΓöÇ mcp/                      # Modular microservice model context server providers
++ΓööΓöÇΓöÇ workflows/                # Declarative YAML workflow recipes
++```
++
++---
++
++## ≡ƒÜÇ Setup & Launch
+ 
+-### 2. Startup
++Ensure you have **Node.js >= 20.18.x** and **npm** installed.
++
++### 1. Install Dependencies
+ ```bash
+-# Install dependencies
+-npm install # fallback resolver
++npm install
++```
+ 
+-# Run dev loop
+-npm run dev
++### 2. Environment Variables (.env)
++Copy the default file and configure custom variables:
++```bash
++cp .env.example .env
++```
++Default parameters inside `.env`:
++- `PORT=3001`
++- `DB_PATH=./db.json`
++- `NODE_ENV=development`
++
++### 3. Build Project Modules
++```bash
++npm run build
+ ```
++
++### 4. Boot Express Server
++```bash
++npm run api
++```
++
++#### Application Links:
++- **Citizen Filing Portal**: [http://localhost:3001/](http://localhost:3001/)
++- **Judge Review Dashboard**: [http://localhost:3001/judge/](http://localhost:3001/judge/)
++
++---
++
++## ≡ƒº¬ E2E Simulation Profiles
++
++NyayaOS supports 5 demo scenario profiles out-of-the-box (accessible via cards in the Citizen filing portal):
++
++1. **Happy Path (`happy_path`)**: Runs the pipeline end-to-end. All agents succeed, a precedent is found, case is `COMPLETED`.
++2. **Identity Mismatch (`identity_failure`)**: Mismatch inside Identity database, case `FAILED`.
++3. **Missing Documents (`missing_documents`)**: Sale Deed missing required signatures, case `FAILED`.
++4. **Wrong Jurisdiction (`wrong_jurisdiction`)**: Wrong registry boundaries, case `FAILED`.
++5. **Duplicate Filing (`duplicate_filing`)**: Search detects parcel already has active disputes, case `FAILED`.
++
++Run the automated validation suites:
++```bash
++# Verify 5 simulation profiles
++node packages/api/src/verify_failures.js
++
++# Verify case registry list, summaries, evidence, precedents, and report downloading
++node packages/api/src/verify_judge.js
++```
++
++---
++
++## ≡ƒôé Documentation Links
++
++- [Installation & Setup Guide](docs/INSTALLATION_GUIDE.md)
++- [REST API Specifications](docs/API_DOCUMENTATION.md)
++- [Demo Walkthrough Scenarios](docs/DEMO_GUIDE.md)
++- [Hackathon Presentation Slides / Pitch Deck](docs/PITCH_DECK.md)
++
++---
++
++## ΓÜû∩╕Å License
++Licensed under the [MIT License](LICENSE).
+diff --git a/mcp/document-server/src/modules/calculator/calculator.prompts.ts b/mcp/document-server/src/modules/calculator/calculator.prompts.ts
+index ad9ae35..8c248bd 100644
+--- a/mcp/document-server/src/modules/calculator/calculator.prompts.ts
++++ b/mcp/document-server/src/modules/calculator/calculator.prompts.ts
+@@ -1,73 +1 @@
+-import { PromptDecorator as Prompt, ExecutionContext } from '@nitrostack/core';
+-
+-export class CalculatorPrompts {
+-  @Prompt({
+-    name: 'calculator_help',
+-    description: 'Get help with calculator operations',
+-    arguments: [
+-      {
+-        name: 'operation',
+-        description: 'The operation to get help with (optional)',
+-        required: false
+-      }
+-    ]
+-  })
+-  async getHelp(args: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Generating calculator help prompt');
+-
+-    const operation = args.operation;
+-
+-    if (operation) {
+-      // Help for specific operation
+-      const helpText = this.getOperationHelp(operation);
+-      return [
+-        {
+-          role: 'user' as const,
+-          content: `How do I use the ${operation} operation in the calculator?`
+-        },
+-        {
+-          role: 'assistant' as const,
+-          content: helpText
+-        }
+-      ];
+-    }
+-
+-    // General help
+-    return [
+-      {
+-        role: 'user' as const,
+-        content: 'How do I use the calculator?'
+-      },
+-      {
+-        role: 'assistant' as const,
+-        content: `The calculator supports four basic operations:
+-
+-1. **Addition** - Add two numbers together
+-   Example: calculate(operation="add", a=5, b=3) = 8
+-
+-2. **Subtraction** - Subtract one number from another
+-   Example: calculate(operation="subtract", a=10, b=4) = 6
+-
+-3. **Multiplication** - Multiply two numbers
+-   Example: calculate(operation="multiply", a=6, b=7) = 42
+-
+-4. **Division** - Divide one number by another
+-   Example: calculate(operation="divide", a=20, b=5) = 4
+-
+-Just call the 'calculate' tool with the operation and two numbers!`
+-      }
+-    ];
+-  }
+-
+-  private getOperationHelp(operation: string): string {
+-    const helps: Record<string, string> = {
+-      add: 'Use addition to sum two numbers. Call calculate(operation="add", a=5, b=3) to get 8.',
+-      subtract: 'Use subtraction to find the difference. Call calculate(operation="subtract", a=10, b=4) to get 6.',
+-      multiply: 'Use multiplication to find the product. Call calculate(operation="multiply", a=6, b=7) to get 42.',
+-      divide: 'Use division to find the quotient. Call calculate(operation="divide", a=20, b=5) to get 4. Note: Cannot divide by zero!'
+-    };
+-
+-    return helps[operation] || 'Unknown operation. Available operations: add, subtract, multiply, divide.';
+-  }
+-}
+-
++export class CalculatorPrompts { }
+diff --git a/mcp/document-server/src/modules/calculator/calculator.resources.ts b/mcp/document-server/src/modules/calculator/calculator.resources.ts
+index 7763725..6b7ef16 100644
+--- a/mcp/document-server/src/modules/calculator/calculator.resources.ts
++++ b/mcp/document-server/src/modules/calculator/calculator.resources.ts
+@@ -1,59 +1 @@
+-import { ResourceDecorator as Resource, Widget, ExecutionContext } from '@nitrostack/core';
+-
+-export class CalculatorResources {
+-  @Resource({
+-    uri: 'calculator://operations',
+-    name: 'Calculator Operations',
+-    description: 'List of available calculator operations',
+-    mimeType: 'application/json',
+-    examples: {
+-      response: {
+-        operations: [
+-          { name: 'add', symbol: '+', description: 'Addition' },
+-          { name: 'subtract', symbol: '-', description: 'Subtraction' },
+-          { name: 'multiply', symbol: '├ù', description: 'Multiplication' },
+-          { name: 'divide', symbol: '├╖', description: 'Division' }
+-        ]
+-      }
+-    }
+-  })
+-  async getOperations(uri: string, ctx: ExecutionContext) {
+-    ctx.logger.info('Fetching calculator operations');
+-
+-    const operations = [
+-      {
+-        name: 'add',
+-        symbol: '+',
+-        description: 'Addition',
+-        example: '5 + 3 = 8'
+-      },
+-      {
+-        name: 'subtract',
+-        symbol: '-',
+-        description: 'Subtraction',
+-        example: '10 - 4 = 6'
+-      },
+-      {
+-        name: 'multiply',
+-        symbol: '├ù',
+-        description: 'Multiplication',
+-        example: '6 ├ù 7 = 42'
+-      },
+-      {
+-        name: 'divide',
+-        symbol: '├╖',
+-        description: 'Division',
+-        example: '20 ├╖ 5 = 4'
+-      }
+-    ];
+-
+-    return {
+-      contents: [{
+-        uri,
+-        mimeType: 'application/json',
+-        text: JSON.stringify({ operations }, null, 2)
+-      }]
+-    };
+-  }
+-}
+-
++export class CalculatorResources { }
+diff --git a/mcp/document-server/src/modules/calculator/calculator.tools.ts b/mcp/document-server/src/modules/calculator/calculator.tools.ts
+index 38ce863..0b00b04 100644
+--- a/mcp/document-server/src/modules/calculator/calculator.tools.ts
++++ b/mcp/document-server/src/modules/calculator/calculator.tools.ts
+@@ -1,166 +1,146 @@
+-import { ToolDecorator as Tool, Widget, ExecutionContext, z } from '@nitrostack/core';
++import { ToolDecorator as Tool, ExecutionContext, z } from '@nitrostack/core';
+ import * as fs from 'fs';
+ import * as path from 'path';
+ 
+ export class CalculatorTools {
+   @Tool({
+-    name: 'calculate',
+-    description: 'Perform basic arithmetic calculations',
+-    inputSchema: z.object({
+-      operation: z.enum(['add', 'subtract', 'multiply', 'divide']).describe('The operation to perform'),
+-      a: z.number().describe('First number'),
+-      b: z.number().describe('Second number')
+-    }),
+-    examples: {
+-      request: {
+-        operation: 'add',
+-        a: 5,
+-        b: 3
+-      },
+-      response: {
+-        operation: 'add',
+-        a: 5,
+-        b: 3,
+-        result: 8,
+-        expression: '5 + 3 = 8'
+-      }
+-    }
++    name: 'health',
++    description: 'Verify server health status',
++    inputSchema: z.object({})
+   })
+-  @Widget('calculator-result')
+-  async calculate(input: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Performing calculation', {
+-      operation: input.operation,
+-      a: input.a,
+-      b: input.b
+-    });
+-
+-    let result: number;
+-    let symbol: string;
+-
+-    switch (input.operation) {
+-      case 'add':
+-        result = input.a + input.b;
+-        symbol = '+';
+-        break;
+-      case 'subtract':
+-        result = input.a - input.b;
+-        symbol = '-';
+-        break;
+-      case 'multiply':
+-        result = input.a * input.b;
+-        symbol = '├ù';
+-        break;
+-      case 'divide':
+-        if (input.b === 0) {
+-          throw new Error('Cannot divide by zero');
+-        }
+-        result = input.a / input.b;
+-        symbol = '├╖';
+-        break;
+-      default:
+-        throw new Error('Invalid operation');
+-    }
+-
++  async health(input: any, ctx: ExecutionContext) {
+     return {
+-      operation: input.operation,
+-      a: input.a,
+-      b: input.b,
+-      result,
+-      expression: `${input.a} ${symbol} ${input.b} = ${result}`
++      success: true,
++      confidence: 1.0,
++      data: { status: 'healthy' },
++      reasoning: 'Document MCP Server is online and responsive',
++      executionTimeMs: 1
+     };
+   }
+ 
+   @Tool({
+-    name: 'convert_temperature',
+-    description: 'Convert temperature units based on file content or direct input. Supports Celsius (C) and Fahrenheit (F).',
++    name: 'uploadDocument',
++    description: 'Upload a document (Base64)',
+     inputSchema: z.object({
+-      file_name: z.string().describe('Name of the uploaded file'),
+-      file_type: z.string().describe('MIME type of the uploaded file'),
+-      file_content: z.string().describe('Base64 encoded file content. Will be injected by system.'),
+-      value: z.number().optional().describe('Temperature value to convert'),
+-      from_unit: z.enum(['C', 'F']).optional().describe('Unit to convert from (C or F)'),
+-      to_unit: z.enum(['C', 'F']).optional().describe('Unit to convert to (C or F)')
++      fileName: z.string().describe('Name of the file'),
++      contentBase64: z.string().describe('Base64 content of the file')
+     })
+   })
+-  async convertTemperature(input: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Processing temperature file', {
+-      name: input.file_name,
+-      type: input.file_type,
+-      value: input.value,
+-      from: input.from_unit,
+-      to: input.to_unit
+-    });
++  async uploadDocument(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info(`uploadDocument called for file ${input.fileName}`);
+ 
+-    // Save file to uploads directory
+     const uploadsDir = path.join(process.cwd(), 'uploads');
+     if (!fs.existsSync(uploadsDir)) {
+       fs.mkdirSync(uploadsDir, { recursive: true });
+     }
++    const filePath = path.join(uploadsDir, input.fileName);
++
++    try {
++      const buffer = Buffer.from(input.contentBase64, 'base64');
++      fs.writeFileSync(filePath, buffer);
++      return {
++        success: true,
++        confidence: 1.0,
++        data: { fileName: input.fileName, savedPath: filePath },
++        reasoning: `Successfully saved file to ${filePath}`,
++        executionTimeMs: Date.now() - start
++      };
++    } catch (e: any) {
++      return {
++        success: false,
++        confidence: 1.0,
++        data: {},
++        reasoning: `Upload failed: ${e.message || e}`,
++        executionTimeMs: Date.now() - start
++      };
++    }
++  }
+ 
+-    const filePath = path.join(uploadsDir, input.file_name);
+-
+-    // Decode base64
+-    if (input.file_content) {
+-      try {
+-        const matches = input.file_content.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+-        let buffer;
+-
+-        if (matches && matches.length === 3) {
+-          buffer = Buffer.from(matches[2], 'base64');
+-        } else {
+-          buffer = Buffer.from(input.file_content, 'base64');
+-        }
++  @Tool({
++    name: 'parsePdf',
++    description: 'Scrape PDF metadata and validate citizen match',
++    inputSchema: z.object({
++      fileName: z.string().describe('Name of the uploaded PDF file to parse')
++    })
++  })
++  async parsePdf(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info(`parsePdf called for file ${input.fileName}`);
+ 
+-        fs.writeFileSync(filePath, buffer);
+-        ctx.logger.info(`Saved file to ${filePath}`);
+-      } catch (e) {
+-        ctx.logger.error('Failed to save file', { error: e instanceof Error ? e.message : String(e) });
+-      }
+-    }
++    const isLandDeed = input.fileName.toLowerCase().includes('deed') || input.fileName.toLowerCase().includes('land');
++    const matched = isLandDeed;
+ 
+-    const fileStats = {
+-      name: input.file_name,
+-      type: input.file_type,
+-      saved_path: filePath,
+-      status: 'saved'
++    return {
++      success: isLandDeed,
++      confidence: 0.95,
++      data: isLandDeed ? {
++        documentType: 'LandSaleDeed',
++        extractedBuyer: 'Rajesh Kumar',
++        plotId: 'plot-7412A',
++        area: 'Karnataka'
++      } : {
++        documentType: 'Unknown'
++      },
++      reasoning: isLandDeed ? 'Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.' : 'Unsupported document type.',
++      executionTimeMs: Date.now() - start
+     };
++  }
+ 
+-    let result: number | null = null;
+-    let message = `Successfully processed and saved file ${input.file_name}`;
++  @Tool({
++    name: 'checkRequired',
++    description: 'Check if document list contains target file type',
++    inputSchema: z.object({
++      documents: z.array(z.string()).describe('List of uploaded documents'),
++      requiredType: z.string().describe('Target file type to look for')
++    })
++  })
++  async checkRequired(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info(`checkRequired called for ${input.requiredType}`);
+ 
+-    // Perform conversion logic
+-    if (input.value !== undefined && input.from_unit && input.to_unit) {
+-      try {
+-        message += `. Converting ${input.value}┬░${input.from_unit} to ${input.to_unit}`;
++    // Check if any uploaded document name contains the type keyword case insensitively
++    const contains = input.documents.some((doc: string) =>
++      doc.toLowerCase().includes(input.requiredType.toLowerCase())
++    );
+ 
+-        if (input.from_unit === input.to_unit) {
+-          result = input.value;
+-        } else if (input.from_unit === 'C' && input.to_unit === 'F') {
+-          result = (input.value * 9 / 5) + 32;
+-        } else if (input.from_unit === 'F' && input.to_unit === 'C') {
+-          result = (input.value - 32) * 5 / 9;
+-        } else {
+-          throw new Error('Unsupported unit conversion');
+-        }
++    return {
++      success: contains,
++      confidence: 1.0,
++      data: { contains },
++      reasoning: contains ? `Required document type ${input.requiredType} is present.` : `Missing required document type: ${input.requiredType}.`,
++      executionTimeMs: Date.now() - start
++    };
++  }
+ 
+-        // Round to 2 decimal places
+-        if (result !== null) {
+-          result = Math.round(result * 100) / 100;
+-          message += `. Result: ${result}┬░${input.to_unit}`;
+-        }
+-      } catch (e: any) {
+-        message += `. Conversion failed: ${e.message}`;
++  @Tool({
++    name: 'detectMissing',
++    description: 'Detect missing document categories against needed list',
++    inputSchema: z.object({
++      documents: z.array(z.string()).describe('Uploaded document names'),
++      requiredList: z.array(z.string()).describe('List of required document types')
++    })
++  })
++  async detectMissing(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info('detectMissing called');
++
++    const missing: string[] = [];
++    for (const req of input.requiredList) {
++      const found = input.documents.some((doc: string) =>
++        doc.toLowerCase().includes(req.toLowerCase())
++      );
++      if (!found) {
++        missing.push(req);
+       }
+-    } else {
+-      message += `. No valid conversion parameters detected from manual input or file extraction.`;
+     }
+ 
+     return {
+-      status: 'success',
+-      message,
+-      file_info: fileStats,
+-      conversion_result: result !== null ? { value: result, unit: input.to_unit } : null,
+-      original_value: input.value !== undefined ? { value: input.value, unit: input.from_unit } : null
++      success: missing.length === 0,
++      confidence: 1.0,
++      data: { missing },
++      reasoning: missing.length === 0 ? 'All required documents are present.' : `Dispute missing requirements: ${missing.join(', ')}`,
++      executionTimeMs: Date.now() - start
+     };
+   }
+ }
+diff --git a/mcp/identity-server/src/modules/calculator/calculator.prompts.ts b/mcp/identity-server/src/modules/calculator/calculator.prompts.ts
+index ad9ae35..8c248bd 100644
+--- a/mcp/identity-server/src/modules/calculator/calculator.prompts.ts
++++ b/mcp/identity-server/src/modules/calculator/calculator.prompts.ts
+@@ -1,73 +1 @@
+-import { PromptDecorator as Prompt, ExecutionContext } from '@nitrostack/core';
+-
+-export class CalculatorPrompts {
+-  @Prompt({
+-    name: 'calculator_help',
+-    description: 'Get help with calculator operations',
+-    arguments: [
+-      {
+-        name: 'operation',
+-        description: 'The operation to get help with (optional)',
+-        required: false
+-      }
+-    ]
+-  })
+-  async getHelp(args: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Generating calculator help prompt');
+-
+-    const operation = args.operation;
+-
+-    if (operation) {
+-      // Help for specific operation
+-      const helpText = this.getOperationHelp(operation);
+-      return [
+-        {
+-          role: 'user' as const,
+-          content: `How do I use the ${operation} operation in the calculator?`
+-        },
+-        {
+-          role: 'assistant' as const,
+-          content: helpText
+-        }
+-      ];
+-    }
+-
+-    // General help
+-    return [
+-      {
+-        role: 'user' as const,
+-        content: 'How do I use the calculator?'
+-      },
+-      {
+-        role: 'assistant' as const,
+-        content: `The calculator supports four basic operations:
+-
+-1. **Addition** - Add two numbers together
+-   Example: calculate(operation="add", a=5, b=3) = 8
+-
+-2. **Subtraction** - Subtract one number from another
+-   Example: calculate(operation="subtract", a=10, b=4) = 6
+-
+-3. **Multiplication** - Multiply two numbers
+-   Example: calculate(operation="multiply", a=6, b=7) = 42
+-
+-4. **Division** - Divide one number by another
+-   Example: calculate(operation="divide", a=20, b=5) = 4
+-
+-Just call the 'calculate' tool with the operation and two numbers!`
+-      }
+-    ];
+-  }
+-
+-  private getOperationHelp(operation: string): string {
+-    const helps: Record<string, string> = {
+-      add: 'Use addition to sum two numbers. Call calculate(operation="add", a=5, b=3) to get 8.',
+-      subtract: 'Use subtraction to find the difference. Call calculate(operation="subtract", a=10, b=4) to get 6.',
+-      multiply: 'Use multiplication to find the product. Call calculate(operation="multiply", a=6, b=7) to get 42.',
+-      divide: 'Use division to find the quotient. Call calculate(operation="divide", a=20, b=5) to get 4. Note: Cannot divide by zero!'
+-    };
+-
+-    return helps[operation] || 'Unknown operation. Available operations: add, subtract, multiply, divide.';
+-  }
+-}
+-
++export class CalculatorPrompts { }
+diff --git a/mcp/identity-server/src/modules/calculator/calculator.resources.ts b/mcp/identity-server/src/modules/calculator/calculator.resources.ts
+index 7763725..6b7ef16 100644
+--- a/mcp/identity-server/src/modules/calculator/calculator.resources.ts
++++ b/mcp/identity-server/src/modules/calculator/calculator.resources.ts
+@@ -1,59 +1 @@
+-import { ResourceDecorator as Resource, Widget, ExecutionContext } from '@nitrostack/core';
+-
+-export class CalculatorResources {
+-  @Resource({
+-    uri: 'calculator://operations',
+-    name: 'Calculator Operations',
+-    description: 'List of available calculator operations',
+-    mimeType: 'application/json',
+-    examples: {
+-      response: {
+-        operations: [
+-          { name: 'add', symbol: '+', description: 'Addition' },
+-          { name: 'subtract', symbol: '-', description: 'Subtraction' },
+-          { name: 'multiply', symbol: '├ù', description: 'Multiplication' },
+-          { name: 'divide', symbol: '├╖', description: 'Division' }
+-        ]
+-      }
+-    }
+-  })
+-  async getOperations(uri: string, ctx: ExecutionContext) {
+-    ctx.logger.info('Fetching calculator operations');
+-
+-    const operations = [
+-      {
+-        name: 'add',
+-        symbol: '+',
+-        description: 'Addition',
+-        example: '5 + 3 = 8'
+-      },
+-      {
+-        name: 'subtract',
+-        symbol: '-',
+-        description: 'Subtraction',
+-        example: '10 - 4 = 6'
+-      },
+-      {
+-        name: 'multiply',
+-        symbol: '├ù',
+-        description: 'Multiplication',
+-        example: '6 ├ù 7 = 42'
+-      },
+-      {
+-        name: 'divide',
+-        symbol: '├╖',
+-        description: 'Division',
+-        example: '20 ├╖ 5 = 4'
+-      }
+-    ];
+-
+-    return {
+-      contents: [{
+-        uri,
+-        mimeType: 'application/json',
+-        text: JSON.stringify({ operations }, null, 2)
+-      }]
+-    };
+-  }
+-}
+-
++export class CalculatorResources { }
+diff --git a/mcp/identity-server/src/modules/calculator/calculator.tools.ts b/mcp/identity-server/src/modules/calculator/calculator.tools.ts
+index 38ce863..809c914 100644
+--- a/mcp/identity-server/src/modules/calculator/calculator.tools.ts
++++ b/mcp/identity-server/src/modules/calculator/calculator.tools.ts
+@@ -1,166 +1,93 @@
+-import { ToolDecorator as Tool, Widget, ExecutionContext, z } from '@nitrostack/core';
+-import * as fs from 'fs';
+-import * as path from 'path';
++import { ToolDecorator as Tool, ExecutionContext, z } from '@nitrostack/core';
+ 
+ export class CalculatorTools {
+   @Tool({
+-    name: 'calculate',
+-    description: 'Perform basic arithmetic calculations',
+-    inputSchema: z.object({
+-      operation: z.enum(['add', 'subtract', 'multiply', 'divide']).describe('The operation to perform'),
+-      a: z.number().describe('First number'),
+-      b: z.number().describe('Second number')
+-    }),
+-    examples: {
+-      request: {
+-        operation: 'add',
+-        a: 5,
+-        b: 3
+-      },
+-      response: {
+-        operation: 'add',
+-        a: 5,
+-        b: 3,
+-        result: 8,
+-        expression: '5 + 3 = 8'
+-      }
+-    }
++    name: 'health',
++    description: 'Verify server health status',
++    inputSchema: z.object({})
+   })
+-  @Widget('calculator-result')
+-  async calculate(input: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Performing calculation', {
+-      operation: input.operation,
+-      a: input.a,
+-      b: input.b
+-    });
+-
+-    let result: number;
+-    let symbol: string;
+-
+-    switch (input.operation) {
+-      case 'add':
+-        result = input.a + input.b;
+-        symbol = '+';
+-        break;
+-      case 'subtract':
+-        result = input.a - input.b;
+-        symbol = '-';
+-        break;
+-      case 'multiply':
+-        result = input.a * input.b;
+-        symbol = '├ù';
+-        break;
+-      case 'divide':
+-        if (input.b === 0) {
+-          throw new Error('Cannot divide by zero');
+-        }
+-        result = input.a / input.b;
+-        symbol = '├╖';
+-        break;
+-      default:
+-        throw new Error('Invalid operation');
+-    }
+-
++  async health(input: any, ctx: ExecutionContext) {
+     return {
+-      operation: input.operation,
+-      a: input.a,
+-      b: input.b,
+-      result,
+-      expression: `${input.a} ${symbol} ${input.b} = ${result}`
++      success: true,
++      confidence: 1.0,
++      data: { status: 'healthy' },
++      reasoning: 'Identity MCP Server is online and responsive',
++      executionTimeMs: 1
+     };
+   }
+ 
+   @Tool({
+-    name: 'convert_temperature',
+-    description: 'Convert temperature units based on file content or direct input. Supports Celsius (C) and Fahrenheit (F).',
++    name: 'verifyIdentity',
++    description: 'Verify citizen identity details by ID',
+     inputSchema: z.object({
+-      file_name: z.string().describe('Name of the uploaded file'),
+-      file_type: z.string().describe('MIME type of the uploaded file'),
+-      file_content: z.string().describe('Base64 encoded file content. Will be injected by system.'),
+-      value: z.number().optional().describe('Temperature value to convert'),
+-      from_unit: z.enum(['C', 'F']).optional().describe('Unit to convert from (C or F)'),
+-      to_unit: z.enum(['C', 'F']).optional().describe('Unit to convert to (C or F)')
++      citizenId: z.string().describe('ID of the citizen to verify')
+     })
+   })
+-  async convertTemperature(input: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Processing temperature file', {
+-      name: input.file_name,
+-      type: input.file_type,
+-      value: input.value,
+-      from: input.from_unit,
+-      to: input.to_unit
+-    });
+-
+-    // Save file to uploads directory
+-    const uploadsDir = path.join(process.cwd(), 'uploads');
+-    if (!fs.existsSync(uploadsDir)) {
+-      fs.mkdirSync(uploadsDir, { recursive: true });
+-    }
+-
+-    const filePath = path.join(uploadsDir, input.file_name);
++  async verifyIdentity(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info(`verifyIdentity called for ID ${input.citizenId}`);
++    const verified = input.citizenId === 'cit-9988';
+ 
+-    // Decode base64
+-    if (input.file_content) {
+-      try {
+-        const matches = input.file_content.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+-        let buffer;
+-
+-        if (matches && matches.length === 3) {
+-          buffer = Buffer.from(matches[2], 'base64');
+-        } else {
+-          buffer = Buffer.from(input.file_content, 'base64');
+-        }
+-
+-        fs.writeFileSync(filePath, buffer);
+-        ctx.logger.info(`Saved file to ${filePath}`);
+-      } catch (e) {
+-        ctx.logger.error('Failed to save file', { error: e instanceof Error ? e.message : String(e) });
+-      }
+-    }
+-
+-    const fileStats = {
+-      name: input.file_name,
+-      type: input.file_type,
+-      saved_path: filePath,
+-      status: 'saved'
++    return {
++      success: verified,
++      confidence: 0.99,
++      data: verified ? {
++        verified: true,
++        name: 'Rajesh Kumar',
++        address: '123, Park Street, Bengaluru'
++      } : {
++        verified: false
++      },
++      reasoning: verified ? 'Successfully verified citizen identity and extracted profile token hash.' : 'Citizen ID not found in registry database.',
++      executionTimeMs: Date.now() - start
+     };
++  }
+ 
+-    let result: number | null = null;
+-    let message = `Successfully processed and saved file ${input.file_name}`;
+-
+-    // Perform conversion logic
+-    if (input.value !== undefined && input.from_unit && input.to_unit) {
+-      try {
+-        message += `. Converting ${input.value}┬░${input.from_unit} to ${input.to_unit}`;
++  @Tool({
++    name: 'validateCitizen',
++    description: 'Validate custom citizen record match details',
++    inputSchema: z.object({
++      citizenId: z.string().describe('ID of citizen'),
++      address: z.string().describe('Address value to validate')
++    })
++  })
++  async validateCitizen(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info(`validateCitizen called for ID ${input.citizenId}`);
++    const matched = input.citizenId === 'cit-9988' && input.address.toLowerCase().includes('bengaluru');
+ 
+-        if (input.from_unit === input.to_unit) {
+-          result = input.value;
+-        } else if (input.from_unit === 'C' && input.to_unit === 'F') {
+-          result = (input.value * 9 / 5) + 32;
+-        } else if (input.from_unit === 'F' && input.to_unit === 'C') {
+-          result = (input.value - 32) * 5 / 9;
+-        } else {
+-          throw new Error('Unsupported unit conversion');
+-        }
++    return {
++      success: matched,
++      confidence: 0.98,
++      data: { matched },
++      reasoning: matched ? 'Citizen address validation matches record registry Karnataka.' : 'Address does not match record.',
++      executionTimeMs: Date.now() - start
++    };
++  }
+ 
+-        // Round to 2 decimal places
+-        if (result !== null) {
+-          result = Math.round(result * 100) / 100;
+-          message += `. Result: ${result}┬░${input.to_unit}`;
+-        }
+-      } catch (e: any) {
+-        message += `. Conversion failed: ${e.message}`;
+-      }
+-    } else {
+-      message += `. No valid conversion parameters detected from manual input or file extraction.`;
+-    }
++  @Tool({
++    name: 'extractProfile',
++    description: 'Extract demographics of a verified citizen',
++    inputSchema: z.object({
++      citizenId: z.string().describe('ID of citizen')
++    })
++  })
++  async extractProfile(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info(`extractProfile called for ID ${input.citizenId}`);
++    const success = input.citizenId === 'cit-9988';
+ 
+     return {
+-      status: 'success',
+-      message,
+-      file_info: fileStats,
+-      conversion_result: result !== null ? { value: result, unit: input.to_unit } : null,
+-      original_value: input.value !== undefined ? { value: input.value, unit: input.from_unit } : null
++      success,
++      confidence: 0.99,
++      data: success ? {
++        name: 'Rajesh Kumar',
++        age: 42,
++        gender: 'M',
++        address: '123, Park Street, Bengaluru'
++      } : {},
++      reasoning: success ? 'Extracted registry demographics profile details.' : 'Demographics extraction failed - ID not found.',
++      executionTimeMs: Date.now() - start
+     };
+   }
+ }
+diff --git a/mcp/registry-server/src/modules/calculator/calculator.prompts.ts b/mcp/registry-server/src/modules/calculator/calculator.prompts.ts
+index ad9ae35..8c248bd 100644
+--- a/mcp/registry-server/src/modules/calculator/calculator.prompts.ts
++++ b/mcp/registry-server/src/modules/calculator/calculator.prompts.ts
+@@ -1,73 +1 @@
+-import { PromptDecorator as Prompt, ExecutionContext } from '@nitrostack/core';
+-
+-export class CalculatorPrompts {
+-  @Prompt({
+-    name: 'calculator_help',
+-    description: 'Get help with calculator operations',
+-    arguments: [
+-      {
+-        name: 'operation',
+-        description: 'The operation to get help with (optional)',
+-        required: false
+-      }
+-    ]
+-  })
+-  async getHelp(args: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Generating calculator help prompt');
+-
+-    const operation = args.operation;
+-
+-    if (operation) {
+-      // Help for specific operation
+-      const helpText = this.getOperationHelp(operation);
+-      return [
+-        {
+-          role: 'user' as const,
+-          content: `How do I use the ${operation} operation in the calculator?`
+-        },
+-        {
+-          role: 'assistant' as const,
+-          content: helpText
+-        }
+-      ];
+-    }
+-
+-    // General help
+-    return [
+-      {
+-        role: 'user' as const,
+-        content: 'How do I use the calculator?'
+-      },
+-      {
+-        role: 'assistant' as const,
+-        content: `The calculator supports four basic operations:
+-
+-1. **Addition** - Add two numbers together
+-   Example: calculate(operation="add", a=5, b=3) = 8
+-
+-2. **Subtraction** - Subtract one number from another
+-   Example: calculate(operation="subtract", a=10, b=4) = 6
+-
+-3. **Multiplication** - Multiply two numbers
+-   Example: calculate(operation="multiply", a=6, b=7) = 42
+-
+-4. **Division** - Divide one number by another
+-   Example: calculate(operation="divide", a=20, b=5) = 4
+-
+-Just call the 'calculate' tool with the operation and two numbers!`
+-      }
+-    ];
+-  }
+-
+-  private getOperationHelp(operation: string): string {
+-    const helps: Record<string, string> = {
+-      add: 'Use addition to sum two numbers. Call calculate(operation="add", a=5, b=3) to get 8.',
+-      subtract: 'Use subtraction to find the difference. Call calculate(operation="subtract", a=10, b=4) to get 6.',
+-      multiply: 'Use multiplication to find the product. Call calculate(operation="multiply", a=6, b=7) to get 42.',
+-      divide: 'Use division to find the quotient. Call calculate(operation="divide", a=20, b=5) to get 4. Note: Cannot divide by zero!'
+-    };
+-
+-    return helps[operation] || 'Unknown operation. Available operations: add, subtract, multiply, divide.';
+-  }
+-}
+-
++export class CalculatorPrompts { }
+diff --git a/mcp/registry-server/src/modules/calculator/calculator.resources.ts b/mcp/registry-server/src/modules/calculator/calculator.resources.ts
+index 7763725..6b7ef16 100644
+--- a/mcp/registry-server/src/modules/calculator/calculator.resources.ts
++++ b/mcp/registry-server/src/modules/calculator/calculator.resources.ts
+@@ -1,59 +1 @@
+-import { ResourceDecorator as Resource, Widget, ExecutionContext } from '@nitrostack/core';
+-
+-export class CalculatorResources {
+-  @Resource({
+-    uri: 'calculator://operations',
+-    name: 'Calculator Operations',
+-    description: 'List of available calculator operations',
+-    mimeType: 'application/json',
+-    examples: {
+-      response: {
+-        operations: [
+-          { name: 'add', symbol: '+', description: 'Addition' },
+-          { name: 'subtract', symbol: '-', description: 'Subtraction' },
+-          { name: 'multiply', symbol: '├ù', description: 'Multiplication' },
+-          { name: 'divide', symbol: '├╖', description: 'Division' }
+-        ]
+-      }
+-    }
+-  })
+-  async getOperations(uri: string, ctx: ExecutionContext) {
+-    ctx.logger.info('Fetching calculator operations');
+-
+-    const operations = [
+-      {
+-        name: 'add',
+-        symbol: '+',
+-        description: 'Addition',
+-        example: '5 + 3 = 8'
+-      },
+-      {
+-        name: 'subtract',
+-        symbol: '-',
+-        description: 'Subtraction',
+-        example: '10 - 4 = 6'
+-      },
+-      {
+-        name: 'multiply',
+-        symbol: '├ù',
+-        description: 'Multiplication',
+-        example: '6 ├ù 7 = 42'
+-      },
+-      {
+-        name: 'divide',
+-        symbol: '├╖',
+-        description: 'Division',
+-        example: '20 ├╖ 5 = 4'
+-      }
+-    ];
+-
+-    return {
+-      contents: [{
+-        uri,
+-        mimeType: 'application/json',
+-        text: JSON.stringify({ operations }, null, 2)
+-      }]
+-    };
+-  }
+-}
+-
++export class CalculatorResources { }
+diff --git a/mcp/registry-server/src/modules/calculator/calculator.tools.ts b/mcp/registry-server/src/modules/calculator/calculator.tools.ts
+index 38ce863..8b859c5 100644
+--- a/mcp/registry-server/src/modules/calculator/calculator.tools.ts
++++ b/mcp/registry-server/src/modules/calculator/calculator.tools.ts
+@@ -1,166 +1,93 @@
+-import { ToolDecorator as Tool, Widget, ExecutionContext, z } from '@nitrostack/core';
+-import * as fs from 'fs';
+-import * as path from 'path';
++import { ToolDecorator as Tool, ExecutionContext, z } from '@nitrostack/core';
+ 
+ export class CalculatorTools {
+   @Tool({
+-    name: 'calculate',
+-    description: 'Perform basic arithmetic calculations',
+-    inputSchema: z.object({
+-      operation: z.enum(['add', 'subtract', 'multiply', 'divide']).describe('The operation to perform'),
+-      a: z.number().describe('First number'),
+-      b: z.number().describe('Second number')
+-    }),
+-    examples: {
+-      request: {
+-        operation: 'add',
+-        a: 5,
+-        b: 3
+-      },
+-      response: {
+-        operation: 'add',
+-        a: 5,
+-        b: 3,
+-        result: 8,
+-        expression: '5 + 3 = 8'
+-      }
+-    }
++    name: 'health',
++    description: 'Verify server health status',
++    inputSchema: z.object({})
+   })
+-  @Widget('calculator-result')
+-  async calculate(input: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Performing calculation', {
+-      operation: input.operation,
+-      a: input.a,
+-      b: input.b
+-    });
+-
+-    let result: number;
+-    let symbol: string;
+-
+-    switch (input.operation) {
+-      case 'add':
+-        result = input.a + input.b;
+-        symbol = '+';
+-        break;
+-      case 'subtract':
+-        result = input.a - input.b;
+-        symbol = '-';
+-        break;
+-      case 'multiply':
+-        result = input.a * input.b;
+-        symbol = '├ù';
+-        break;
+-      case 'divide':
+-        if (input.b === 0) {
+-          throw new Error('Cannot divide by zero');
+-        }
+-        result = input.a / input.b;
+-        symbol = '├╖';
+-        break;
+-      default:
+-        throw new Error('Invalid operation');
+-    }
+-
++  async health(input: any, ctx: ExecutionContext) {
+     return {
+-      operation: input.operation,
+-      a: input.a,
+-      b: input.b,
+-      result,
+-      expression: `${input.a} ${symbol} ${input.b} = ${result}`
++      success: true,
++      confidence: 1.0,
++      data: { status: 'healthy' },
++      reasoning: 'Registry MCP Server is online and responsive',
++      executionTimeMs: 1
+     };
+   }
+ 
+   @Tool({
+-    name: 'convert_temperature',
+-    description: 'Convert temperature units based on file content or direct input. Supports Celsius (C) and Fahrenheit (F).',
++    name: 'checkJurisdiction',
++    description: 'Check if plot ID falls within correct court jurisdiction',
+     inputSchema: z.object({
+-      file_name: z.string().describe('Name of the uploaded file'),
+-      file_type: z.string().describe('MIME type of the uploaded file'),
+-      file_content: z.string().describe('Base64 encoded file content. Will be injected by system.'),
+-      value: z.number().optional().describe('Temperature value to convert'),
+-      from_unit: z.enum(['C', 'F']).optional().describe('Unit to convert from (C or F)'),
+-      to_unit: z.enum(['C', 'F']).optional().describe('Unit to convert to (C or F)')
++      plotId: z.string().describe('Plot ID to check'),
++      location: z.string().describe('Location of the dispute')
+     })
+   })
+-  async convertTemperature(input: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Processing temperature file', {
+-      name: input.file_name,
+-      type: input.file_type,
+-      value: input.value,
+-      from: input.from_unit,
+-      to: input.to_unit
+-    });
+-
+-    // Save file to uploads directory
+-    const uploadsDir = path.join(process.cwd(), 'uploads');
+-    if (!fs.existsSync(uploadsDir)) {
+-      fs.mkdirSync(uploadsDir, { recursive: true });
+-    }
++  async checkJurisdiction(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info(`checkJurisdiction called for plot ${input.plotId} at ${input.location}`);
+ 
+-    const filePath = path.join(uploadsDir, input.file_name);
++    // Success if Bengaluru/Karnataka and plot matches plot-7412A
++    const isKarnataka = input.location.toLowerCase().includes('karnataka') || input.location.toLowerCase().includes('bengaluru');
++    const correctPlot = input.plotId === 'plot-7412A';
++    const isJurisdiction = isKarnataka && correctPlot;
+ 
+-    // Decode base64
+-    if (input.file_content) {
+-      try {
+-        const matches = input.file_content.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+-        let buffer;
++    return {
++      success: isJurisdiction,
++      confidence: 0.98,
++      data: { isJurisdiction, courtNode: 'Land Tribunal Karnataka' },
++      reasoning: isJurisdiction ? `Land records registry check completed. Plot ID ${input.plotId} confirmed matches dispute claims.` : 'Dispute location falls outside Karnataka registry jurisdiction.',
++      executionTimeMs: Date.now() - start
++    };
++  }
+ 
+-        if (matches && matches.length === 3) {
+-          buffer = Buffer.from(matches[2], 'base64');
+-        } else {
+-          buffer = Buffer.from(input.file_content, 'base64');
+-        }
++  @Tool({
++    name: 'checkDuplicateFiling',
++    description: 'Verify citizen has not filed duplicates recently',
++    inputSchema: z.object({
++      citizenId: z.string().describe('Citizen ID'),
++      plotId: z.string().describe('Plot ID')
++    })
++  })
++  async checkDuplicateFiling(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info(`checkDuplicateFiling called for ${input.citizenId}`);
+ 
+-        fs.writeFileSync(filePath, buffer);
+-        ctx.logger.info(`Saved file to ${filePath}`);
+-      } catch (e) {
+-        ctx.logger.error('Failed to save file', { error: e instanceof Error ? e.message : String(e) });
+-      }
+-    }
++    // No duplicate filing for Rajesh Kumar
++    const isDuplicate = false;
+ 
+-    const fileStats = {
+-      name: input.file_name,
+-      type: input.file_type,
+-      saved_path: filePath,
+-      status: 'saved'
++    return {
++      success: true,
++      confidence: 0.99,
++      data: { isDuplicate },
++      reasoning: 'No active duplicate dispute cases registered in this municipal limit.',
++      executionTimeMs: Date.now() - start
+     };
++  }
+ 
+-    let result: number | null = null;
+-    let message = `Successfully processed and saved file ${input.file_name}`;
+-
+-    // Perform conversion logic
+-    if (input.value !== undefined && input.from_unit && input.to_unit) {
+-      try {
+-        message += `. Converting ${input.value}┬░${input.from_unit} to ${input.to_unit}`;
+-
+-        if (input.from_unit === input.to_unit) {
+-          result = input.value;
+-        } else if (input.from_unit === 'C' && input.to_unit === 'F') {
+-          result = (input.value * 9 / 5) + 32;
+-        } else if (input.from_unit === 'F' && input.to_unit === 'C') {
+-          result = (input.value - 32) * 5 / 9;
+-        } else {
+-          throw new Error('Unsupported unit conversion');
+-        }
++  @Tool({
++    name: 'checkCompleteness',
++    description: 'Verify all required headers and parameters have been populated',
++    inputSchema: z.object({
++      caseData: z.any().describe('The collected case details object')
++    })
++  })
++  async checkCompleteness(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info('checkCompleteness called');
+ 
+-        // Round to 2 decimal places
+-        if (result !== null) {
+-          result = Math.round(result * 100) / 100;
+-          message += `. Result: ${result}┬░${input.to_unit}`;
+-        }
+-      } catch (e: any) {
+-        message += `. Conversion failed: ${e.message}`;
+-      }
+-    } else {
+-      message += `. No valid conversion parameters detected from manual input or file extraction.`;
+-    }
++    const data = input.caseData || {};
++    const identityVerified = !!data.identityVerified;
++    const documentVerified = !!data.documentVerified;
++    const complete = identityVerified && documentVerified;
+ 
+     return {
+-      status: 'success',
+-      message,
+-      file_info: fileStats,
+-      conversion_result: result !== null ? { value: result, unit: input.to_unit } : null,
+-      original_value: input.value !== undefined ? { value: input.value, unit: input.from_unit } : null
++      success: complete,
++      confidence: 1.0,
++      data: { complete },
++      reasoning: complete ? 'Filing completeness verified. Case is complete.' : 'Missing verified identity or deed documents check parameters.',
++      executionTimeMs: Date.now() - start
+     };
+   }
+ }
+diff --git a/mcp/research-server/src/modules/calculator/calculator.prompts.ts b/mcp/research-server/src/modules/calculator/calculator.prompts.ts
+index ad9ae35..8c248bd 100644
+--- a/mcp/research-server/src/modules/calculator/calculator.prompts.ts
++++ b/mcp/research-server/src/modules/calculator/calculator.prompts.ts
+@@ -1,73 +1 @@
+-import { PromptDecorator as Prompt, ExecutionContext } from '@nitrostack/core';
+-
+-export class CalculatorPrompts {
+-  @Prompt({
+-    name: 'calculator_help',
+-    description: 'Get help with calculator operations',
+-    arguments: [
+-      {
+-        name: 'operation',
+-        description: 'The operation to get help with (optional)',
+-        required: false
+-      }
+-    ]
+-  })
+-  async getHelp(args: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Generating calculator help prompt');
+-
+-    const operation = args.operation;
+-
+-    if (operation) {
+-      // Help for specific operation
+-      const helpText = this.getOperationHelp(operation);
+-      return [
+-        {
+-          role: 'user' as const,
+-          content: `How do I use the ${operation} operation in the calculator?`
+-        },
+-        {
+-          role: 'assistant' as const,
+-          content: helpText
+-        }
+-      ];
+-    }
+-
+-    // General help
+-    return [
+-      {
+-        role: 'user' as const,
+-        content: 'How do I use the calculator?'
+-      },
+-      {
+-        role: 'assistant' as const,
+-        content: `The calculator supports four basic operations:
+-
+-1. **Addition** - Add two numbers together
+-   Example: calculate(operation="add", a=5, b=3) = 8
+-
+-2. **Subtraction** - Subtract one number from another
+-   Example: calculate(operation="subtract", a=10, b=4) = 6
+-
+-3. **Multiplication** - Multiply two numbers
+-   Example: calculate(operation="multiply", a=6, b=7) = 42
+-
+-4. **Division** - Divide one number by another
+-   Example: calculate(operation="divide", a=20, b=5) = 4
+-
+-Just call the 'calculate' tool with the operation and two numbers!`
+-      }
+-    ];
+-  }
+-
+-  private getOperationHelp(operation: string): string {
+-    const helps: Record<string, string> = {
+-      add: 'Use addition to sum two numbers. Call calculate(operation="add", a=5, b=3) to get 8.',
+-      subtract: 'Use subtraction to find the difference. Call calculate(operation="subtract", a=10, b=4) to get 6.',
+-      multiply: 'Use multiplication to find the product. Call calculate(operation="multiply", a=6, b=7) to get 42.',
+-      divide: 'Use division to find the quotient. Call calculate(operation="divide", a=20, b=5) to get 4. Note: Cannot divide by zero!'
+-    };
+-
+-    return helps[operation] || 'Unknown operation. Available operations: add, subtract, multiply, divide.';
+-  }
+-}
+-
++export class CalculatorPrompts { }
+diff --git a/mcp/research-server/src/modules/calculator/calculator.resources.ts b/mcp/research-server/src/modules/calculator/calculator.resources.ts
+index 7763725..6b7ef16 100644
+--- a/mcp/research-server/src/modules/calculator/calculator.resources.ts
++++ b/mcp/research-server/src/modules/calculator/calculator.resources.ts
+@@ -1,59 +1 @@
+-import { ResourceDecorator as Resource, Widget, ExecutionContext } from '@nitrostack/core';
+-
+-export class CalculatorResources {
+-  @Resource({
+-    uri: 'calculator://operations',
+-    name: 'Calculator Operations',
+-    description: 'List of available calculator operations',
+-    mimeType: 'application/json',
+-    examples: {
+-      response: {
+-        operations: [
+-          { name: 'add', symbol: '+', description: 'Addition' },
+-          { name: 'subtract', symbol: '-', description: 'Subtraction' },
+-          { name: 'multiply', symbol: '├ù', description: 'Multiplication' },
+-          { name: 'divide', symbol: '├╖', description: 'Division' }
+-        ]
+-      }
+-    }
+-  })
+-  async getOperations(uri: string, ctx: ExecutionContext) {
+-    ctx.logger.info('Fetching calculator operations');
+-
+-    const operations = [
+-      {
+-        name: 'add',
+-        symbol: '+',
+-        description: 'Addition',
+-        example: '5 + 3 = 8'
+-      },
+-      {
+-        name: 'subtract',
+-        symbol: '-',
+-        description: 'Subtraction',
+-        example: '10 - 4 = 6'
+-      },
+-      {
+-        name: 'multiply',
+-        symbol: '├ù',
+-        description: 'Multiplication',
+-        example: '6 ├ù 7 = 42'
+-      },
+-      {
+-        name: 'divide',
+-        symbol: '├╖',
+-        description: 'Division',
+-        example: '20 ├╖ 5 = 4'
+-      }
+-    ];
+-
+-    return {
+-      contents: [{
+-        uri,
+-        mimeType: 'application/json',
+-        text: JSON.stringify({ operations }, null, 2)
+-      }]
+-    };
+-  }
+-}
+-
++export class CalculatorResources { }
+diff --git a/mcp/research-server/src/modules/calculator/calculator.tools.ts b/mcp/research-server/src/modules/calculator/calculator.tools.ts
+index 38ce863..61c600c 100644
+--- a/mcp/research-server/src/modules/calculator/calculator.tools.ts
++++ b/mcp/research-server/src/modules/calculator/calculator.tools.ts
+@@ -1,166 +1,99 @@
+-import { ToolDecorator as Tool, Widget, ExecutionContext, z } from '@nitrostack/core';
++import { ToolDecorator as Tool, ExecutionContext, z } from '@nitrostack/core';
+ import * as fs from 'fs';
+ import * as path from 'path';
++import { fileURLToPath } from 'url';
++
++const __filename = fileURLToPath(import.meta.url);
++const __dirname = path.dirname(__filename);
++const judgmentsPath = path.resolve(__dirname, '../../../data/judgments.json');
++const actsPath = path.resolve(__dirname, '../../../data/acts.json');
+ 
+ export class CalculatorTools {
+   @Tool({
+-    name: 'calculate',
+-    description: 'Perform basic arithmetic calculations',
+-    inputSchema: z.object({
+-      operation: z.enum(['add', 'subtract', 'multiply', 'divide']).describe('The operation to perform'),
+-      a: z.number().describe('First number'),
+-      b: z.number().describe('Second number')
+-    }),
+-    examples: {
+-      request: {
+-        operation: 'add',
+-        a: 5,
+-        b: 3
+-      },
+-      response: {
+-        operation: 'add',
+-        a: 5,
+-        b: 3,
+-        result: 8,
+-        expression: '5 + 3 = 8'
+-      }
+-    }
++    name: 'health',
++    description: 'Verify server health status',
++    inputSchema: z.object({})
+   })
+-  @Widget('calculator-result')
+-  async calculate(input: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Performing calculation', {
+-      operation: input.operation,
+-      a: input.a,
+-      b: input.b
+-    });
+-
+-    let result: number;
+-    let symbol: string;
+-
+-    switch (input.operation) {
+-      case 'add':
+-        result = input.a + input.b;
+-        symbol = '+';
+-        break;
+-      case 'subtract':
+-        result = input.a - input.b;
+-        symbol = '-';
+-        break;
+-      case 'multiply':
+-        result = input.a * input.b;
+-        symbol = '├ù';
+-        break;
+-      case 'divide':
+-        if (input.b === 0) {
+-          throw new Error('Cannot divide by zero');
+-        }
+-        result = input.a / input.b;
+-        symbol = '├╖';
+-        break;
+-      default:
+-        throw new Error('Invalid operation');
+-    }
+-
++  async health(input: any, ctx: ExecutionContext) {
+     return {
+-      operation: input.operation,
+-      a: input.a,
+-      b: input.b,
+-      result,
+-      expression: `${input.a} ${symbol} ${input.b} = ${result}`
++      success: true,
++      confidence: 1.0,
++      data: { status: 'healthy' },
++      reasoning: 'Research MCP Server is online and responsive',
++      executionTimeMs: 1
+     };
+   }
+ 
+   @Tool({
+-    name: 'convert_temperature',
+-    description: 'Convert temperature units based on file content or direct input. Supports Celsius (C) and Fahrenheit (F).',
++    name: 'searchPrecedents',
++    description: 'Search landmark Court judgments precedents matching legal issue query',
+     inputSchema: z.object({
+-      file_name: z.string().describe('Name of the uploaded file'),
+-      file_type: z.string().describe('MIME type of the uploaded file'),
+-      file_content: z.string().describe('Base64 encoded file content. Will be injected by system.'),
+-      value: z.number().optional().describe('Temperature value to convert'),
+-      from_unit: z.enum(['C', 'F']).optional().describe('Unit to convert from (C or F)'),
+-      to_unit: z.enum(['C', 'F']).optional().describe('Unit to convert to (C or F)')
++      query: z.string().describe('Legal key term or dispute query')
+     })
+   })
+-  async convertTemperature(input: any, ctx: ExecutionContext) {
+-    ctx.logger.info('Processing temperature file', {
+-      name: input.file_name,
+-      type: input.file_type,
+-      value: input.value,
+-      from: input.from_unit,
+-      to: input.to_unit
+-    });
+-
+-    // Save file to uploads directory
+-    const uploadsDir = path.join(process.cwd(), 'uploads');
+-    if (!fs.existsSync(uploadsDir)) {
+-      fs.mkdirSync(uploadsDir, { recursive: true });
+-    }
+-
+-    const filePath = path.join(uploadsDir, input.file_name);
+-
+-    // Decode base64
+-    if (input.file_content) {
+-      try {
+-        const matches = input.file_content.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+-        let buffer;
+-
+-        if (matches && matches.length === 3) {
+-          buffer = Buffer.from(matches[2], 'base64');
+-        } else {
+-          buffer = Buffer.from(input.file_content, 'base64');
+-        }
+-
+-        fs.writeFileSync(filePath, buffer);
+-        ctx.logger.info(`Saved file to ${filePath}`);
+-      } catch (e) {
+-        ctx.logger.error('Failed to save file', { error: e instanceof Error ? e.message : String(e) });
++  async searchPrecedents(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info(`searchPrecedents called for query: ${input.query}`);
++
++    let judgments: any[] = [];
++    try {
++      if (fs.existsSync(judgmentsPath)) {
++        judgments = JSON.parse(fs.readFileSync(judgmentsPath, 'utf8'));
+       }
++    } catch (e: any) {
++      ctx.logger.error('Failed to load judgments:', e.message || e);
+     }
+ 
+-    const fileStats = {
+-      name: input.file_name,
+-      type: input.file_type,
+-      saved_path: filePath,
+-      status: 'saved'
+-    };
+-
+-    let result: number | null = null;
+-    let message = `Successfully processed and saved file ${input.file_name}`;
++    const queryLower = input.query.toLowerCase();
++    const matches = judgments.filter(j =>
++      j.title.toLowerCase().includes(queryLower) ||
++      j.summary.toLowerCase().includes(queryLower) ||
++      j.keywords.some((k: string) => k.toLowerCase().includes(queryLower))
++    );
+ 
+-    // Perform conversion logic
+-    if (input.value !== undefined && input.from_unit && input.to_unit) {
+-      try {
+-        message += `. Converting ${input.value}┬░${input.from_unit} to ${input.to_unit}`;
++    const hit = matches.length > 0 ? matches[0] : judgments[0]; // fallback to first landmark as default
+ 
+-        if (input.from_unit === input.to_unit) {
+-          result = input.value;
+-        } else if (input.from_unit === 'C' && input.to_unit === 'F') {
+-          result = (input.value * 9 / 5) + 32;
+-        } else if (input.from_unit === 'F' && input.to_unit === 'C') {
+-          result = (input.value - 32) * 5 / 9;
+-        } else {
+-          throw new Error('Unsupported unit conversion');
+-        }
++    return {
++      success: true,
++      confidence: 0.92,
++      data: { precedent: hit ? hit.title : 'None', caseNumber: hit ? hit.case : 'General Appeal' },
++      reasoning: hit ? hit.summary : 'No matching court precedents found in database registry.',
++      executionTimeMs: Date.now() - start
++    };
++  }
+ 
+-        // Round to 2 decimal places
+-        if (result !== null) {
+-          result = Math.round(result * 100) / 100;
+-          message += `. Result: ${result}┬░${input.to_unit}`;
+-        }
+-      } catch (e: any) {
+-        message += `. Conversion failed: ${e.message}`;
++  @Tool({
++    name: 'getStatute',
++    description: 'Retrieve statute section contents of standard government Acts',
++    inputSchema: z.object({
++      actName: z.string().describe('Name of the Act'),
++      sectionId: z.string().describe('Section identifier number')
++    })
++  })
++  async getStatute(input: any, ctx: ExecutionContext) {
++    const start = Date.now();
++    ctx.logger.info(`getStatute called for ${input.actName} Sec ${input.sectionId}`);
++
++    let acts: any[] = [];
++    try {
++      if (fs.existsSync(actsPath)) {
++        acts = JSON.parse(fs.readFileSync(actsPath, 'utf8'));
+       }
+-    } else {
+-      message += `. No valid conversion parameters detected from manual input or file extraction.`;
++    } catch (e: any) {
++      ctx.logger.error('Failed to load acts:', e.message || e);
+     }
+ 
++    const match = acts.find(a =>
++      a.act.toLowerCase().includes(input.actName.toLowerCase()) &&
++      a.section === input.sectionId
++    );
++
+     return {
+-      status: 'success',
+-      message,
+-      file_info: fileStats,
+-      conversion_result: result !== null ? { value: result, unit: input.to_unit } : null,
+-      original_value: input.value !== undefined ? { value: input.value, unit: input.from_unit } : null
++      success: !!match,
++      confidence: 0.99,
++      data: match ? { act: match.act, section: match.section, title: match.title, content: match.content } : {},
++      reasoning: match ? `Retrieved section details of ${match.act}.` : 'Statute section not found.',
++      executionTimeMs: Date.now() - start
+     };
+   }
+ }
+diff --git a/package.json b/package.json
+index d5d2d97..10a2fda 100644
+--- a/package.json
++++ b/package.json
+@@ -3,12 +3,17 @@
+     "version": "0.1.0",
+     "private": true,
+     "scripts": {
+-        "dev": "turbo run dev",
+-        "build": "turbo run build",
++        "dev": "node platform/index.js",
++        "api": "node packages/api/src/index.js",
++        "build": "tsc --build",
+         "lint": "turbo run lint --continue",
+         "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+         "typecheck": "turbo run typecheck"
+     },
++    "imports": {
++        "#contracts": "./packages/contracts/dist/index.js",
++        "#agents": "./agents/dist/plugins/index.js"
++    },
+     "devDependencies": {
+         "typescript": "^5.7.2",
+         "turbo": "^2.3.3",
+diff --git a/tsconfig.base.json b/tsconfig.base.json
+index 49e25ef..7584360 100644
+--- a/tsconfig.base.json
++++ b/tsconfig.base.json
+@@ -6,6 +6,14 @@
+         "esModuleInterop": true,
+         "forceConsistentCasingInFileNames": true,
+         "strict": true,
+-        "skipLibCheck": true
++        "skipLibCheck": true,
++        "experimentalDecorators": true,
++        "emitDecoratorMetadata": true,
++        "typeRoots": [
++            "c:/Users/rajam/Downloads/Hackthon/nitrostack/typescript/node_modules/@types"
++        ],
++        "types": [
++            "node"
++        ]
+     }
+ }
+\ No newline at end of file

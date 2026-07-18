@@ -1,0 +1,35 @@
+[
+    {
+        "case": "Civil Appeal 44 (2018)",
+        "title": "Rajamani vs. Karnataka State",
+        "summary": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "keywords": [
+            "title",
+            "dispute",
+            "possession",
+            "sale deed"
+        ]
+    },
+    {
+        "case": "Supreme Court Appeal 1052 (2021)",
+        "title": "Venkatesh vs. Bangalore Municipal Corporation",
+        "summary": "Land revenue records and mutation entries do not confer title. Declared that boundary disputes must be adjudicated by civil courts and not revenue officials.",
+        "keywords": [
+            "boundary",
+            "revenue",
+            "title",
+            "mutation"
+        ]
+    },
+    {
+        "case": "Karnataka High Court Case 772 (2019)",
+        "title": "Patel vs. Gowda",
+        "summary": "Co-owner cannot transfer joint land property without clear division of holdings. Sale deed without partitioning was set aside.",
+        "keywords": [
+            "partition",
+            "sale deed",
+            "joint",
+            "co-owner"
+        ]
+    }
+]

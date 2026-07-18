@@ -1,20 +1,21 @@
 # NyayaOS Project Roadmap
 
-A phased plan structure for the development pipeline:
+This document outlines the development path for the NyayaOS platform runtime and interface.
 
-```
-[Design] -> [Workspace] -> [NitroStack] -> [First Workflow (Citizen -> Planner -> Identity)]
-```
+## Sprints
 
-## Milestones
+### Sprint 8 — Core Runtime
+* **Deliverables**: judicial kernel core, planner, execution engines, MCP servers health checks.
+* **Focus**: TypeScript compilation, MCP stdio bridges, context memory registry.
 
-1. **Milestone 1 — Repository Setup** (Current)
-2. **Milestone 2 — Project Skeleton**
-3. **Milestone 3 — NitroStack Integration**
-4. **Milestone 4 — First Commit**
-5. **Milestone 5 — Planner Agent & Routing**
-6. **Milestone 6 — Document MCP integration**
-7. **Milestone 7 — Registry MCP integration**
-8. **Milestone 8 — Research MCP + RAG**
-9. **Milestone 9 — Shared Memory Engine**
-10. **Milestone 10 — Judge Panel & Demo**
+### Sprint 9 — Experience
+* **Deliverables**: citizen portals, judge dashboard portal, workflow SVG charts, explainability panels.
+* **Focus**: Real-time server-sent events, CSS glassmorphism styling, filters.
+
+### Sprint 10 — Platform Runtime
+* **Deliverables**: Judicial Memory Bus event stream integration, metrics caching DB, system telemetry logs.
+* **Focus**: Express server live endpoints.
+
+### Sprint 11 — Demo Engineering
+* **Deliverables**: mock scenarios data, offline fallback systems, seed database resets, presentation pitch deck.
+* **Focus**: 90 seconds demo execution time check and reliability.

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyayaOS | Judge Review Dashboard</title>
+    <!-- Google Fonts Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="background-decor-1"></div>
+    <div class="background-decor-2"></div>
+
+    <div class="dashboard-wrapper">
+        <!-- SIDEBAR: CASES LIST -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>⚖️ Case Registry</h2>
+                <span class="badge">JUDGE CONSOLE</span>
+            </div>
+            <div style="margin: 0px 0px 12px 0px;">
+                <a href="/"
+                    style="text-decoration: none; padding: 6px 12px; background: rgba(120, 90, 240, 0.15); color: var(--accent); border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(120, 90, 240, 0.3); transition: all 0.2s;">👤
+                    Citizen Portal</a>
+            </div>
+            <p class="sidebar-desc">Select a case file below to load the automated verification trace retrieved from the
+                Judicial Memory Bus.</p>
+
+            <!-- SEARCH AND FILTER CONTROLS -->
+            <div class="search-filter-box">
+                <input type="text" id="searchBar" placeholder="Search by name or case ID..." class="search-input">
+                <div class="filter-row">
+                    <select id="statusFilter" class="filter-select">
+                        <option value="ALL">All Status</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="FAILED">Failed</option>
+                    </select>
+                    <select id="typeFilter" class="filter-select">
+                        <option value="ALL">All Types</option>
+                        <option value="Property Dispute">Property Dispute</option>
+                        <option value="Consumer Complaint">Consumer Complaint</option>
+                        <option value="Cheque Bounce">Cheque Bounce</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="case-list-container" id="caseList">
+                <!-- Case buttons injected dynamically -->
+                <div class="case-list-loading">Loading submission registry...</div>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEW AREA -->
+        <main class="main-content">
+            <!-- GLOBAL KPI METRICS CARDS -->
+            <section class="global-metrics-section">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">Total Cases</div>
+                        <div class="metric-value" id="metric-total">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Completed</div>
+                        <div class="metric-value completed" id="metric-completed">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Failed</div>
+                        <div class="metric-value failed" id="metric-failed">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Avg Runtime</div>
+                        <div class="metric-value" id="metric-time">0ms</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Avg Confidence</div>
+                        <div class="metric-value" id="metric-confidence">0%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- IDLE VIEW -->
+            <div class="idle-state" id="dashboardIdle">
+                <span class="idle-icon">📂</span>
+                <h2>No Case Selected</h2>
+                <p>Select a case from the Registry Sidebar to Review the complete Judicial Memory Bus activity log,
+                    evidence
+                    briefs, and precedent recommendations.</p>
+            </div>
+
+            <!-- DYNAMIC CASE VIEW -->
+            <div class="case-details-view" id="caseDetails" style="display: none;">
+                <!-- Header Banner -->
+                <header class="case-main-header">
+                    <div class="case-title-left">
+                        <span class="case-badge-type" id="caseTypeLabel">PROPERTY DISPUTE</span>
+                        <h1 id="caseHeading">Case Ref: case-2901</h1>
+                        <p class="case-sub">Filing Date: <span id="caseDateLabel">...</span> | Execution ID: <span
+                                id="execIdLabel">...</span></p>
+                    </div>
+                    <div class="case-status-right">
+                        <span class="badge-status" id="caseStatusBadge">COMPLETED</span>
+                    </div>
+                </header>
+
+                <!-- STATUS CARDS GRID (REPLACED WITH LIVE WORKFLOW GRAPH) -->
+                <section class="status-cards-section">
+                    <h3>Workflow Status Flow</h3>
+                    <div class="horizontal-flowchart">
+                        <div class="flowchange-node" id="node-start">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title">Citizen Submission</div>
+                                <div class="node-subtitle">Workflow Started</div>
+                                <div class="node-tech">Judicial Kernel</div>
+                            </div>
+                        </div>
+                        <div class="flowchart-connector" id="connector-1"></div>
+
+                        <div class="flowchange-node" id="node-identity">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title">Identity Check</div>
+                                <div class="node-subtitle">Identity Service</div>
+                                <div class="node-tech">Identity MCP</div>
+                            </div>
+                        </div>
+                        <div class="flowchart-connector" id="connector-2"></div>
+
+                        <div class="flowchange-node" id="node-document">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title">Document Validation</div>
+                                <div class="node-subtitle">Document Service</div>
+                                <div class="node-tech">Document MCP</div>
+                            </div>
+                        </div>
+                        <div class="flowchart-connector" id="connector-3"></div>
+
+                        <div class="flowchange-node" id="node-registry">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title">Registry Check</div>
+                                <div class="node-subtitle">Registry Service</div>
+                                <div class="node-tech">Registry MCP</div>
+                            </div>
+                        </div>
+                        <div class="flowchart-connector" id="connector-4"></div>
+
+                        <div class="flowchange-node" id="node-research">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title">Precedent Research</div>
+                                <div class="node-subtitle">Research Service</div>
+                                <div class="node-tech">Legal Research MCP</div>
+                            </div>
+                        </div>
+                        <div class="flowchart-connector" id="connector-5"></div>
+
+                        <div class="flowchange-node" id="node-judge">
+                            <div class="node-state-color state-pending"></div>
+                            <div class="node-text">
+                                <div class="node-title font-small">Case Ready</div>
+                                <div class="node-subtitle">Workflow Completed</div>
+                                <div class="node-tech">Published to Judicial Memory Bus</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SPLIT DETAIL PANELS -->
+                <div class="details-grid">
+                    <!-- LEFT COLUMN PANELS (~65%) -->
+                    <div class="details-col-left">
+
+                        <!-- Case Summary -->
+                        <div class="detail-card">
+                            <h3>Case Summary</h3>
+                            <div class="demographics-list">
+                                <div class="demo-item">
+                                    <span class="demo-key">Case ID</span>
+                                    <span class="demo-val highlight-text" id="caseIdVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Case Type</span>
+                                    <span class="demo-val" id="caseTypeVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Court</span>
+                                    <span class="demo-val" id="courtVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Filing Date</span>
+                                    <span class="demo-val" id="filingDateVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Assigned Judge</span>
+                                    <span class="demo-val" id="assignedJudgeVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Priority</span>
+                                    <span class="demo-val" id="priorityVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key font-weight-bold">Current Stage</span>
+                                    <span class="demo-val highlight-text" id="currentStageVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Filing Status</span>
+                                    <span class="demo-val" id="judicialStatusVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Estimated Hearing</span>
+                                    <span class="demo-val" id="hearingDateVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Last Updated</span>
+                                    <span class="demo-val" id="lastUpdatedVal">...</span>
+                                </div>
+                                <div class="demo-item-desc">
+                                    <span class="demo-key">Dispute Description</span>
+                                    <p class="demo-text-box" id="descriptionVal">...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Parties Description -->
+                        <div class="detail-card">
+                            <h3>Parties Involved</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div class="demo-text-box" style="border-left-color: var(--primary);">
+                                    <div
+                                        style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">
+                                        Plaintiff</div>
+                                    <div style="font-weight: 700; font-size: 1rem; color: #fff;" id="plaintiffNameVal">
+                                        ...</div>
+                                    <div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 2px;">ID:
+                                        <span id="plaintiffIdVal">...</span></div>
+                                </div>
+                                <div class="demo-text-box" style="border-left-color: var(--red);">
+                                    <div
+                                        style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">
+                                        Defendant</div>
+                                    <div style="font-weight: 700; font-size: 1rem; color: #fff;" id="defendantNameVal">
+                                        ...</div>
+                                    <div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 2px;">ID:
+                                        <span id="defendantIdVal">...</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Information Details -->
+                        <div class="detail-card">
+                            <h3>Property Information</h3>
+                            <div class="demographics-list">
+                                <div class="demo-item">
+                                    <span class="demo-key">Plot ID</span>
+                                    <span class="demo-val highlight-text" id="propPlotIdVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Survey Number</span>
+                                    <span class="demo-val" id="propSurveyVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Registration Number</span>
+                                    <span class="demo-val" id="propRegNoVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Plot Area</span>
+                                    <span class="demo-val" id="propAreaVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Village Location</span>
+                                    <span class="demo-val" id="propVillageVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">District / State</span>
+                                    <span class="demo-val" id="propDistrictStateVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Declared Owner</span>
+                                    <span class="demo-val highlight-text" id="propOwnerVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Deed Registry Date</span>
+                                    <span class="demo-val" id="propRegDateVal">...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Evidence Summary list -->
+                        <div class="detail-card">
+                            <h3>Evidence Verified Checklist</h3>
+                            <div class="demographics-list" id="evidenceListContainer">
+                                <!-- Dynamic check status items injected here -->
+                            </div>
+                        </div>
+
+                        <!-- Statutes and Match Precedents -->
+                        <div class="detail-card">
+                            <h3>Applicable Statutes & Precedents</h3>
+                            <div class="precedents-list-container" id="precedentsContainer">
+                                <!-- Dynamic research outcomes go here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN PANELS (~35%) -->
+                    <div class="details-col-right">
+
+                        <!-- AI Recommendation Card -->
+                        <div class="detail-card"
+                            style="border: 1px solid rgba(92, 98, 214, 0.35); background: linear-gradient(135deg, rgba(20, 28, 48, 0.75) 0%, rgba(92, 98, 214, 0.05) 100%);">
+                            <h3>AI Recommendation</h3>
+                            <div class="demographics-list">
+                                <div class="demo-item">
+                                    <span class="demo-key">Workflow Recommendation</span>
+                                    <span class="demo-val highlight-text" style="color: var(--accent);"
+                                        id="aiRecStatusVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Recommendation Score</span>
+                                    <span class="demo-val" style="font-weight: 700; color: #34d399;"
+                                        id="aiRecConfidenceVal">0%</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Overall Risk</span>
+                                    <span class="demo-val" style="font-weight: 700;" id="aiRecRiskVal">...</span>
+                                </div>
+                                <div class="demo-item-desc">
+                                    <span class="demo-key">Findings Summary</span>
+                                    <div class="demo-text-box" id="aiRecSummaryVal"
+                                        style="border-left-color: var(--teal); font-size: 0.82rem; line-height: 1.4;">
+                                        <!-- Bullets injected dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Risk Assessment Card -->
+                        <div class="detail-card">
+                            <h3>Risk Assessment</h3>
+                            <div class="demographics-list">
+                                <div class="demo-item">
+                                    <span class="demo-key">Identity Fraud</span>
+                                    <span class="demo-val" id="riskIdentityVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key font-weight-bold">Duplicate Filing</span>
+                                    <span class="demo-val" id="riskDuplicateVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Registry Conflict</span>
+                                    <span class="demo-val" id="riskRegistryVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Evidence Gaps</span>
+                                    <span class="demo-val" id="riskEvidenceVal">...</span>
+                                </div>
+                                <div class="demo-item"
+                                    style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; margin-top: 6px;">
+                                    <span class="demo-key font-weight-bold">Overall Risk Level</span>
+                                    <span class="demo-val highlight-text" id="riskOverallVal"
+                                        style="font-size: 1.05rem; font-weight: 800;">...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Verification Outcomes Table -->
+                        <div class="detail-card">
+                            <h3>Verification Results</h3>
+                            <div class="demographics-list">
+                                <div class="demo-item">
+                                    <span class="demo-key">Identity Verification</span>
+                                    <span class="demo-val" id="checkIdentityVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key font-weight-bold">Registry Record Match</span>
+                                    <span class="demo-val" id="checkRegistryVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Encumbrance Check</span>
+                                    <span class="demo-val" id="checkEncumbranceVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key">Duplicate Claim Check</span>
+                                    <span class="demo-val" id="checkDuplicateVal">...</span>
+                                </div>
+                                <div class="demo-item">
+                                    <span class="demo-key font-weight-bold">Ownership Match</span>
+                                    <span class="demo-val" id="checkOwnershipVal">...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Confidence bars (EPHEMERAL ENHANCEMENT #3) -->
+                        <div class="detail-card">
+                            <h3>agent Confidence breakdown</h3>
+                            <div class="confidence-bars-list" id="confidenceContainer">
+                                <!-- Dynamic progress bars go here -->
+                            </div>
+                        </div>
+
+                        <!-- Step metrics times -->
+                        <div class="detail-card">
+                            <h3>Live Logs / Events Feed (Event Store)</h3>
+                            <div class="timeline-logs-feed" id="timelineLogs">
+                                <!-- Injected events logs list -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTTOM EXPLAINABILITY AUDIT PANEL -->
+                <section class="audit-section-panel">
+                    <header class="audit-panel-header">
+                        <div>
+                            <h3 style="margin: 0;">Explainability Summary</h3>
+                            <span
+                                style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Powered
+                                by Explainability Engine</span>
+                        </div>
+                        <a href="#" class="btn-download" id="downloadReportBtn">
+                            <span>📥 Download Review Report</span>
+                        </a>
+                    </header>
+                    <pre class="audit-text-block" id="auditTrailText">Generating Explainability Analysis...</pre>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

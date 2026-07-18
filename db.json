@@ -1,0 +1,3482 @@
+[
+  {
+    "executionId": "WF-20260717-36694",
+    "startedAt": "2026-07-17T19:03:22.819Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for happy_path",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "happy_path"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 4
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 4
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:03:22.822Z",
+        "message": "12:33:22 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:22.837Z",
+        "message": "12:33:22 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:22.843Z",
+        "message": "12:33:22 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:22.844Z",
+        "message": "12:33:22 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:22.850Z",
+        "message": "12:33:22 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:22.851Z",
+        "message": "12:33:22 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:22.856Z",
+        "message": "12:33:22 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:22.857Z",
+        "message": "12:33:22 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:22.861Z",
+        "message": "12:33:22 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:22.861Z",
+        "message": "12:33:22 am Workflow Completed Successfully in 40ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-96913",
+    "startedAt": "2026-07-17T19:03:23.679Z",
+    "status": "FAILED",
+    "currentStep": "step-identity",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for identity_failure",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "identity_failure"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:03:23.680Z",
+        "message": "12:33:23 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:23.681Z",
+        "message": "12:33:23 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:23.684Z",
+        "message": "12:33:23 am Workflow Failed at step-identity: Identity Verification Mismatch: Submitted citizen ID record details do not match national bio-database record.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:23.687Z",
+        "message": "Workflow Aborted: Critical workflow step step-identity (Agent: IdentityAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-76679",
+    "startedAt": "2026-07-17T19:03:24.510Z",
+    "status": "FAILED",
+    "currentStep": "step-document",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for missing_documents",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "missing_documents"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 10
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:03:24.511Z",
+        "message": "12:33:24 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:24.512Z",
+        "message": "12:33:24 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:24.525Z",
+        "message": "12:33:24 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:24.526Z",
+        "message": "12:33:24 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:24.528Z",
+        "message": "12:33:24 am Workflow Failed at step-document: Validation Error: Mandatory Land sale deed document is missing or corrupted from the submission pack.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:24.530Z",
+        "message": "Workflow Aborted: Critical workflow step step-document (Agent: DocumentAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-71067",
+    "startedAt": "2026-07-17T19:03:25.331Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for wrong_jurisdiction",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "wrong_jurisdiction"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 6
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:03:25.332Z",
+        "message": "12:33:25 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:25.333Z",
+        "message": "12:33:25 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:25.340Z",
+        "message": "12:33:25 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:25.340Z",
+        "message": "12:33:25 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:25.347Z",
+        "message": "12:33:25 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:25.348Z",
+        "message": "12:33:25 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:25.348Z",
+        "message": "12:33:25 am Workflow Failed at step-registry: Registry Location Mismatch: Disputed plot registry entry sits under Maharashtra State territorial administration. Suggested Court Node: Mumbai Land Tribunal.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:25.349Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-46318",
+    "startedAt": "2026-07-17T19:03:26.145Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for duplicate_filing",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "duplicate_filing"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 3
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 7
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:03:26.146Z",
+        "message": "12:33:26 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:26.146Z",
+        "message": "12:33:26 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:26.150Z",
+        "message": "12:33:26 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:26.151Z",
+        "message": "12:33:26 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:26.158Z",
+        "message": "12:33:26 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:26.159Z",
+        "message": "12:33:26 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:26.160Z",
+        "message": "12:33:26 am Workflow Failed at step-registry: Registry Check Failed: An active dispute (Ref: case-8812) has already been registered on this plot ID.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:26.160Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-68366",
+    "startedAt": "2026-07-17T19:03:33.369Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "possession dispute boundary overlap",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 3
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 4
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 4
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:03:33.370Z",
+        "message": "12:33:33 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:33.371Z",
+        "message": "12:33:33 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:33.375Z",
+        "message": "12:33:33 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:33.375Z",
+        "message": "12:33:33 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:33.381Z",
+        "message": "12:33:33 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:33.382Z",
+        "message": "12:33:33 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:33.386Z",
+        "message": "12:33:33 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:33.387Z",
+        "message": "12:33:33 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:33.392Z",
+        "message": "12:33:33 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:03:33.392Z",
+        "message": "12:33:33 am Workflow Completed Successfully in 22ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   3ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-88053",
+    "startedAt": "2026-07-17T19:19:28.997Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for happy_path",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "happy_path"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 4
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 8
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 9
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 7
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:19:28.998Z",
+        "message": "12:49:28 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:28.998Z",
+        "message": "12:49:28 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.003Z",
+        "message": "12:49:29 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.005Z",
+        "message": "12:49:29 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.016Z",
+        "message": "12:49:29 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.017Z",
+        "message": "12:49:29 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.026Z",
+        "message": "12:49:29 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.028Z",
+        "message": "12:49:29 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.036Z",
+        "message": "12:49:29 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.037Z",
+        "message": "12:49:29 am Workflow Completed Successfully in 40ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   8ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   9ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   7ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-66275",
+    "startedAt": "2026-07-17T19:19:29.825Z",
+    "status": "FAILED",
+    "currentStep": "step-identity",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for identity_failure",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "identity_failure"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:19:29.827Z",
+        "message": "12:49:29 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.828Z",
+        "message": "12:49:29 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.830Z",
+        "message": "12:49:29 am Workflow Failed at step-identity: Identity Verification Mismatch: Submitted citizen ID record details do not match national bio-database record.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:29.832Z",
+        "message": "Workflow Aborted: Critical workflow step step-identity (Agent: IdentityAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-36186",
+    "startedAt": "2026-07-17T19:19:30.657Z",
+    "status": "FAILED",
+    "currentStep": "step-document",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for missing_documents",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "missing_documents"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 6
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:19:30.660Z",
+        "message": "12:49:30 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:30.662Z",
+        "message": "12:49:30 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:30.670Z",
+        "message": "12:49:30 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:30.673Z",
+        "message": "12:49:30 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:30.678Z",
+        "message": "12:49:30 am Workflow Failed at step-document: Validation Error: Mandatory Land sale deed document is missing or corrupted from the submission pack.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:30.681Z",
+        "message": "Workflow Aborted: Critical workflow step step-document (Agent: DocumentAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-29958",
+    "startedAt": "2026-07-17T19:19:31.482Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for wrong_jurisdiction",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "wrong_jurisdiction"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 7
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 6
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:19:31.483Z",
+        "message": "12:49:31 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:31.485Z",
+        "message": "12:49:31 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:31.492Z",
+        "message": "12:49:31 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:31.494Z",
+        "message": "12:49:31 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:31.504Z",
+        "message": "12:49:31 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:31.506Z",
+        "message": "12:49:31 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:31.508Z",
+        "message": "12:49:31 am Workflow Failed at step-registry: Registry Location Mismatch: Disputed plot registry entry sits under Maharashtra State territorial administration. Suggested Court Node: Mumbai Land Tribunal.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:31.510Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-96122",
+    "startedAt": "2026-07-17T19:19:32.310Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for duplicate_filing",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "duplicate_filing"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 11
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 10
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:19:32.312Z",
+        "message": "12:49:32 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:32.314Z",
+        "message": "12:49:32 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:32.327Z",
+        "message": "12:49:32 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:32.330Z",
+        "message": "12:49:32 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:32.344Z",
+        "message": "12:49:32 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:32.347Z",
+        "message": "12:49:32 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:32.349Z",
+        "message": "12:49:32 am Workflow Failed at step-registry: Registry Check Failed: An active dispute (Ref: case-8812) has already been registered on this plot ID.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:32.351Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-55070",
+    "startedAt": "2026-07-17T19:19:56.714Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "possession dispute boundary overlap",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 4
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:19:56.716Z",
+        "message": "12:49:56 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:56.717Z",
+        "message": "12:49:56 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:56.724Z",
+        "message": "12:49:56 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:56.726Z",
+        "message": "12:49:56 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:56.733Z",
+        "message": "12:49:56 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:56.734Z",
+        "message": "12:49:56 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:56.741Z",
+        "message": "12:49:56 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:56.742Z",
+        "message": "12:49:56 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:56.748Z",
+        "message": "12:49:56 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:19:56.748Z",
+        "message": "12:49:56 am Workflow Completed Successfully in 33ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-62611",
+    "startedAt": "2026-07-17T19:22:35.121Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for happy_path",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "happy_path"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 3
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 4
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 3
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:22:35.123Z",
+        "message": "12:52:35 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.125Z",
+        "message": "12:52:35 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.130Z",
+        "message": "12:52:35 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.131Z",
+        "message": "12:52:35 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.137Z",
+        "message": "12:52:35 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.138Z",
+        "message": "12:52:35 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.144Z",
+        "message": "12:52:35 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.145Z",
+        "message": "12:52:35 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.149Z",
+        "message": "12:52:35 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.150Z",
+        "message": "12:52:35 am Workflow Completed Successfully in 27ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   3ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   3ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-68666",
+    "startedAt": "2026-07-17T19:22:35.960Z",
+    "status": "FAILED",
+    "currentStep": "step-identity",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for identity_failure",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "identity_failure"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:22:35.961Z",
+        "message": "12:52:35 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.963Z",
+        "message": "12:52:35 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.967Z",
+        "message": "12:52:35 am Workflow Failed at step-identity: Identity Verification Mismatch: Submitted citizen ID record details do not match national bio-database record.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:35.973Z",
+        "message": "Workflow Aborted: Critical workflow step step-identity (Agent: IdentityAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-87766",
+    "startedAt": "2026-07-17T19:22:36.791Z",
+    "status": "FAILED",
+    "currentStep": "step-document",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for missing_documents",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "missing_documents"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 6
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:22:36.792Z",
+        "message": "12:52:36 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:36.794Z",
+        "message": "12:52:36 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:36.801Z",
+        "message": "12:52:36 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:36.803Z",
+        "message": "12:52:36 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:36.804Z",
+        "message": "12:52:36 am Workflow Failed at step-document: Validation Error: Mandatory Land sale deed document is missing or corrupted from the submission pack.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:36.806Z",
+        "message": "Workflow Aborted: Critical workflow step step-document (Agent: DocumentAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-43530",
+    "startedAt": "2026-07-17T19:22:37.614Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for wrong_jurisdiction",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "wrong_jurisdiction"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 8
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 13
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:22:37.616Z",
+        "message": "12:52:37 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:37.618Z",
+        "message": "12:52:37 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:37.627Z",
+        "message": "12:52:37 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:37.630Z",
+        "message": "12:52:37 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:37.647Z",
+        "message": "12:52:37 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:37.649Z",
+        "message": "12:52:37 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:37.651Z",
+        "message": "12:52:37 am Workflow Failed at step-registry: Registry Location Mismatch: Disputed plot registry entry sits under Maharashtra State territorial administration. Suggested Court Node: Mumbai Land Tribunal.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:37.653Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-87898",
+    "startedAt": "2026-07-17T19:22:38.441Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for duplicate_filing",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "duplicate_filing"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 8
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:22:38.444Z",
+        "message": "12:52:38 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:38.446Z",
+        "message": "12:52:38 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:38.454Z",
+        "message": "12:52:38 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:38.456Z",
+        "message": "12:52:38 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:38.467Z",
+        "message": "12:52:38 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:38.468Z",
+        "message": "12:52:38 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:38.470Z",
+        "message": "12:52:38 am Workflow Failed at step-registry: Registry Check Failed: An active dispute (Ref: case-8812) has already been registered on this plot ID.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:38.471Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-48591",
+    "startedAt": "2026-07-17T19:22:47.584Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "possession dispute boundary overlap",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 6
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 3
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:22:47.585Z",
+        "message": "12:52:47 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:47.586Z",
+        "message": "12:52:47 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:47.593Z",
+        "message": "12:52:47 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:47.595Z",
+        "message": "12:52:47 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:47.602Z",
+        "message": "12:52:47 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:47.603Z",
+        "message": "12:52:47 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:47.609Z",
+        "message": "12:52:47 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:47.610Z",
+        "message": "12:52:47 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:47.615Z",
+        "message": "12:52:47 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:22:47.616Z",
+        "message": "12:52:47 am Workflow Completed Successfully in 31ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   6ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   3ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-36182",
+    "startedAt": "2026-07-17T19:41:51.393Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "possession dispute boundary overlap",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 8
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 8
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 8
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 5
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:41:51.396Z",
+        "message": "1:11:51 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:41:51.417Z",
+        "message": "1:11:51 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:41:51.426Z",
+        "message": "1:11:51 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:41:51.429Z",
+        "message": "1:11:51 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:41:51.440Z",
+        "message": "1:11:51 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:41:51.442Z",
+        "message": "1:11:51 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:41:51.452Z",
+        "message": "1:11:51 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:41:51.453Z",
+        "message": "1:11:51 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:41:51.460Z",
+        "message": "1:11:51 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:41:51.463Z",
+        "message": "1:11:51 am Workflow Completed Successfully in 68ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   8ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   8ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   8ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-75103",
+    "startedAt": "2026-07-17T19:42:05.537Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for happy_path",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "happy_path"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 10
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 9
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 6
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:42:05.539Z",
+        "message": "1:12:05 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:05.541Z",
+        "message": "1:12:05 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:05.553Z",
+        "message": "1:12:05 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:05.556Z",
+        "message": "1:12:05 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:05.566Z",
+        "message": "1:12:05 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:05.567Z",
+        "message": "1:12:05 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:05.573Z",
+        "message": "1:12:05 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:05.574Z",
+        "message": "1:12:05 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:05.582Z",
+        "message": "1:12:05 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:05.584Z",
+        "message": "1:12:05 am Workflow Completed Successfully in 45ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   10ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   9ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   6ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-79682",
+    "startedAt": "2026-07-17T19:42:06.383Z",
+    "status": "FAILED",
+    "currentStep": "step-identity",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for identity_failure",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "identity_failure"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:42:06.385Z",
+        "message": "1:12:06 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:06.389Z",
+        "message": "1:12:06 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:06.396Z",
+        "message": "1:12:06 am Workflow Failed at step-identity: Identity Verification Mismatch: Submitted citizen ID record details do not match national bio-database record.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:06.402Z",
+        "message": "Workflow Aborted: Critical workflow step step-identity (Agent: IdentityAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-57843",
+    "startedAt": "2026-07-17T19:42:07.224Z",
+    "status": "FAILED",
+    "currentStep": "step-document",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for missing_documents",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "missing_documents"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 12
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:42:07.228Z",
+        "message": "1:12:07 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:07.233Z",
+        "message": "1:12:07 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:07.249Z",
+        "message": "1:12:07 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:07.251Z",
+        "message": "1:12:07 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:07.257Z",
+        "message": "1:12:07 am Workflow Failed at step-document: Validation Error: Mandatory Land sale deed document is missing or corrupted from the submission pack.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:07.260Z",
+        "message": "Workflow Aborted: Critical workflow step step-document (Agent: DocumentAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-54920",
+    "startedAt": "2026-07-17T19:42:08.073Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for wrong_jurisdiction",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "wrong_jurisdiction"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 12
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 6
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:42:08.076Z",
+        "message": "1:12:08 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.081Z",
+        "message": "1:12:08 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.097Z",
+        "message": "1:12:08 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.099Z",
+        "message": "1:12:08 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.109Z",
+        "message": "1:12:08 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.111Z",
+        "message": "1:12:08 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.114Z",
+        "message": "1:12:08 am Workflow Failed at step-registry: Registry Location Mismatch: Disputed plot registry entry sits under Maharashtra State territorial administration. Suggested Court Node: Mumbai Land Tribunal.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.117Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-46329",
+    "startedAt": "2026-07-17T19:42:08.919Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for duplicate_filing",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "duplicate_filing"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 9
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:42:08.922Z",
+        "message": "1:12:08 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.928Z",
+        "message": "1:12:08 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.936Z",
+        "message": "1:12:08 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.938Z",
+        "message": "1:12:08 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.948Z",
+        "message": "1:12:08 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.951Z",
+        "message": "1:12:08 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.953Z",
+        "message": "1:12:08 am Workflow Failed at step-registry: Registry Check Failed: An active dispute (Ref: case-8812) has already been registered on this plot ID.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:42:08.956Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-50677",
+    "startedAt": "2026-07-17T19:43:44.371Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "possession dispute boundary overlap",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 9
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 4
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 5
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:43:44.373Z",
+        "message": "1:13:44 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:44.375Z",
+        "message": "1:13:44 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:44.382Z",
+        "message": "1:13:44 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:44.385Z",
+        "message": "1:13:44 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:44.397Z",
+        "message": "1:13:44 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:44.400Z",
+        "message": "1:13:44 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:44.407Z",
+        "message": "1:13:44 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:44.409Z",
+        "message": "1:13:44 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:44.416Z",
+        "message": "1:13:44 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:44.418Z",
+        "message": "1:13:44 am Workflow Completed Successfully in 45ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   9ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-66291",
+    "startedAt": "2026-07-17T19:43:52.452Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for happy_path",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "happy_path"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 6
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 4
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 6
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 4
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:43:52.454Z",
+        "message": "1:13:52 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:52.456Z",
+        "message": "1:13:52 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:52.463Z",
+        "message": "1:13:52 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:52.465Z",
+        "message": "1:13:52 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:52.472Z",
+        "message": "1:13:52 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:52.474Z",
+        "message": "1:13:52 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:52.483Z",
+        "message": "1:13:52 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:52.485Z",
+        "message": "1:13:52 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:52.490Z",
+        "message": "1:13:52 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:52.491Z",
+        "message": "1:13:52 am Workflow Completed Successfully in 37ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   6ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   6ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-80253",
+    "startedAt": "2026-07-17T19:43:53.284Z",
+    "status": "FAILED",
+    "currentStep": "step-identity",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for identity_failure",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "identity_failure"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:43:53.288Z",
+        "message": "1:13:53 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:53.292Z",
+        "message": "1:13:53 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:53.298Z",
+        "message": "1:13:53 am Workflow Failed at step-identity: Identity Verification Mismatch: Submitted citizen ID record details do not match national bio-database record.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:53.305Z",
+        "message": "Workflow Aborted: Critical workflow step step-identity (Agent: IdentityAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-98420",
+    "startedAt": "2026-07-17T19:43:54.125Z",
+    "status": "FAILED",
+    "currentStep": "step-document",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for missing_documents",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "missing_documents"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 11
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:43:54.128Z",
+        "message": "1:13:54 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:54.136Z",
+        "message": "1:13:54 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:54.156Z",
+        "message": "1:13:54 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:54.162Z",
+        "message": "1:13:54 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:54.170Z",
+        "message": "1:13:54 am Workflow Failed at step-document: Validation Error: Mandatory Land sale deed document is missing or corrupted from the submission pack.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:54.175Z",
+        "message": "Workflow Aborted: Critical workflow step step-document (Agent: DocumentAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-79022",
+    "startedAt": "2026-07-17T19:43:54.974Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for wrong_jurisdiction",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "wrong_jurisdiction"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 4
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 9
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:43:54.977Z",
+        "message": "1:13:54 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:54.983Z",
+        "message": "1:13:54 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:54.990Z",
+        "message": "1:13:54 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:54.992Z",
+        "message": "1:13:54 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.004Z",
+        "message": "1:13:55 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.006Z",
+        "message": "1:13:55 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.008Z",
+        "message": "1:13:55 am Workflow Failed at step-registry: Registry Location Mismatch: Disputed plot registry entry sits under Maharashtra State territorial administration. Suggested Court Node: Mumbai Land Tribunal.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.012Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-71496",
+    "startedAt": "2026-07-17T19:43:55.808Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for duplicate_filing",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "duplicate_filing"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 7
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 9
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:43:55.812Z",
+        "message": "1:13:55 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.816Z",
+        "message": "1:13:55 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.826Z",
+        "message": "1:13:55 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.830Z",
+        "message": "1:13:55 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.841Z",
+        "message": "1:13:55 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.844Z",
+        "message": "1:13:55 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.847Z",
+        "message": "1:13:55 am Workflow Failed at step-registry: Registry Check Failed: An active dispute (Ref: case-8812) has already been registered on this plot ID.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:43:55.850Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-32962",
+    "startedAt": "2026-07-17T19:56:48.416Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "possession dispute boundary overlap",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 9
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 11
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 7
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 5
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:56:48.421Z",
+        "message": "1:26:48 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:56:48.426Z",
+        "message": "1:26:48 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:56:48.441Z",
+        "message": "1:26:48 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:56:48.445Z",
+        "message": "1:26:48 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:56:48.459Z",
+        "message": "1:26:48 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:56:48.464Z",
+        "message": "1:26:48 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:56:48.474Z",
+        "message": "1:26:48 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:56:48.475Z",
+        "message": "1:26:48 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:56:48.482Z",
+        "message": "1:26:48 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:56:48.485Z",
+        "message": "1:26:48 am Workflow Completed Successfully in 64ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   9ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   11ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   7ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   5ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-16680",
+    "startedAt": "2026-07-17T19:57:35.586Z",
+    "status": "COMPLETED",
+    "currentStep": "step-research",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for happy_path",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "happy_path"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 3
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 4
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "COMPLETED",
+        "output": {
+          "isJurisdiction": true,
+          "courtNode": "Land Tribunal Karnataka"
+        },
+        "confidence": 0.98,
+        "explanation": "Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.",
+        "durationMs": 3
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "COMPLETED",
+        "output": {
+          "precedent": "Rajamani vs. Karnataka State",
+          "caseNumber": "Civil Appeal 44 (2018)"
+        },
+        "confidence": 0.92,
+        "explanation": "Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.",
+        "durationMs": 4
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:57:35.587Z",
+        "message": "1:27:35 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:35.590Z",
+        "message": "1:27:35 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:35.594Z",
+        "message": "1:27:35 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:35.597Z",
+        "message": "1:27:35 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:35.605Z",
+        "message": "1:27:35 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:35.607Z",
+        "message": "1:27:35 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:35.611Z",
+        "message": "1:27:35 am Registry Confirmed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:35.613Z",
+        "message": "1:27:35 am Processing Research...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:35.620Z",
+        "message": "1:27:35 am Research Completed",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:35.621Z",
+        "message": "1:27:35 am Workflow Completed Successfully in 34ms",
+        "type": "WorkflowCompleted"
+      }
+    ],
+    "resultText": "\n--- ⚖️ NYAYAOS WORKFLOW EXPLAINABILITY TIMELINE ---\n[Step 1] ✓ IdentityAgent (ID: step-identity)\n       Status:     SUCCESS\n       Duration:   3ms\n       Confidence: 99.0%\n       Reasoning:  \"Extracted registry demographics profile details.\"\n----------------------------------------------------\n[Step 2] ✓ DocumentAgent (ID: step-document)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 95.0%\n       Reasoning:  \"Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.\"\n----------------------------------------------------\n[Step 3] ✓ RegistryAgent (ID: step-registry)\n       Status:     SUCCESS\n       Duration:   3ms\n       Confidence: 98.0%\n       Reasoning:  \"Land records registry check completed. Plot ID plot-7412A confirmed matches dispute claims.\"\n----------------------------------------------------\n[Step 4] ✓ ResearchAgent (ID: step-research)\n       Status:     SUCCESS\n       Duration:   4ms\n       Confidence: 92.0%\n       Reasoning:  \"Disputed title precedents search returned landmark case civil appeal 44 (2018). Established that registration of sale deed requires verified physical possession boundary checks.\"\n----------------------------------------------------\n"
+  },
+  {
+    "executionId": "WF-20260717-38775",
+    "startedAt": "2026-07-17T19:57:36.437Z",
+    "status": "FAILED",
+    "currentStep": "step-identity",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for identity_failure",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "identity_failure"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:57:36.441Z",
+        "message": "1:27:36 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:36.448Z",
+        "message": "1:27:36 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:36.454Z",
+        "message": "1:27:36 am Workflow Failed at step-identity: Identity Verification Mismatch: Submitted citizen ID record details do not match national bio-database record.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:36.458Z",
+        "message": "Workflow Aborted: Critical workflow step step-identity (Agent: IdentityAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-54737",
+    "startedAt": "2026-07-17T19:57:37.285Z",
+    "status": "FAILED",
+    "currentStep": "step-document",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for missing_documents",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "missing_documents"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 8
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "PENDING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:57:37.292Z",
+        "message": "1:27:37 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:37.297Z",
+        "message": "1:27:37 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:37.310Z",
+        "message": "1:27:37 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:37.313Z",
+        "message": "1:27:37 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:37.320Z",
+        "message": "1:27:37 am Workflow Failed at step-document: Validation Error: Mandatory Land sale deed document is missing or corrupted from the submission pack.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:37.323Z",
+        "message": "Workflow Aborted: Critical workflow step step-document (Agent: DocumentAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-53000",
+    "startedAt": "2026-07-17T19:57:38.125Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for wrong_jurisdiction",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "wrong_jurisdiction"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 4
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 4
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:57:38.129Z",
+        "message": "1:27:38 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.135Z",
+        "message": "1:27:38 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.143Z",
+        "message": "1:27:38 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.146Z",
+        "message": "1:27:38 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.154Z",
+        "message": "1:27:38 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.157Z",
+        "message": "1:27:38 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.159Z",
+        "message": "1:27:38 am Workflow Failed at step-registry: Registry Location Mismatch: Disputed plot registry entry sits under Maharashtra State territorial administration. Suggested Court Node: Mumbai Land Tribunal.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.161Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  },
+  {
+    "executionId": "WF-20260717-10704",
+    "startedAt": "2026-07-17T19:57:38.954Z",
+    "status": "FAILED",
+    "currentStep": "step-registry",
+    "input": {
+      "caseType": "Property Dispute",
+      "citizenId": "cit-9988",
+      "plotId": "plot-7412A",
+      "location": "Bengaluru, Karnataka",
+      "disputeDescription": "Testing simulation for duplicate_filing",
+      "fileName": "Deed_RajeshKumar.pdf",
+      "documentType": "Deed",
+      "demoProfile": "duplicate_filing"
+    },
+    "steps": [
+      {
+        "stepId": "step-identity",
+        "agentName": "IdentityAgent",
+        "status": "COMPLETED",
+        "output": {
+          "name": "Rajesh Kumar",
+          "age": 42,
+          "gender": "M",
+          "address": "123, Park Street, Bengaluru"
+        },
+        "confidence": 0.99,
+        "explanation": "Extracted registry demographics profile details.",
+        "durationMs": 5
+      },
+      {
+        "stepId": "step-document",
+        "agentName": "DocumentAgent",
+        "status": "COMPLETED",
+        "output": {
+          "documentType": "LandSaleDeed",
+          "extractedBuyer": "Rajesh Kumar",
+          "plotId": "plot-7412A",
+          "area": "Karnataka"
+        },
+        "confidence": 0.95,
+        "explanation": "Scanned LandSaleDeed document. Verified buyer name matching Rajesh Kumar.",
+        "durationMs": 7
+      },
+      {
+        "stepId": "step-registry",
+        "agentName": "RegistryAgent",
+        "status": "RUNNING"
+      },
+      {
+        "stepId": "step-research",
+        "agentName": "ResearchAgent",
+        "status": "PENDING"
+      }
+    ],
+    "timelineEvents": [
+      {
+        "timestamp": "2026-07-17T19:57:38.957Z",
+        "message": "1:27:38 am Workflow Started",
+        "type": "WorkflowStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.963Z",
+        "message": "1:27:38 am Processing Identity...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.972Z",
+        "message": "1:27:38 am Identity Verified",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.976Z",
+        "message": "1:27:38 am Processing Document...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.986Z",
+        "message": "1:27:38 am Documents Validated",
+        "type": "AgentCompleted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.988Z",
+        "message": "1:27:38 am Processing Registry...",
+        "type": "AgentStarted"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.990Z",
+        "message": "1:27:38 am Workflow Failed at step-registry: Registry Check Failed: An active dispute (Ref: case-8812) has already been registered on this plot ID.",
+        "type": "WorkflowFailed"
+      },
+      {
+        "timestamp": "2026-07-17T19:57:38.992Z",
+        "message": "Workflow Aborted: Critical workflow step step-registry (Agent: RegistryAgent) failed.",
+        "type": "WorkflowFailed"
+      }
+    ]
+  }
+]

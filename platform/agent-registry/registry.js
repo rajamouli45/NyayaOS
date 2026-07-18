@@ -1,0 +1,21 @@
+export class AgentRegistry {
+    agents = new Map();
+    register(agent) {
+        const key = agent.name.toLowerCase();
+        if (this.agents.has(key)) {
+            throw new Error(`Agent with name ${agent.name} is already registered.`);
+        }
+        this.agents.set(key, agent);
+    }
+    get(name) {
+        const key = name.toLowerCase();
+        const agent = this.agents.get(key) || this.agents.get(`${key}agent`);
+        if (!agent) {
+            throw new Error(`Agent ${name} is not registered in the Registry.`);
+        }
+        return agent;
+    }
+    getAll() {
+        return Array.from(this.agents.values());
+    }
+}
