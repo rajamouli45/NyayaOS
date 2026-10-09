@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { McpApp, Module, ConfigModule } from '@nitrostack/core';
-import { CalculatorModule } from './modules/calculator/calculator.module.js';
+import { IdentityModule } from './modules/identity/identity.module.js';
 import { SystemHealthCheck } from './health/system.health.js';
 /**
  * Root Application Module
@@ -19,7 +19,7 @@ AppModule = __decorate([
     McpApp({
         module: AppModule,
         server: {
-            name: 'calculator-server',
+            name: 'identity-server',
             version: '1.0.0'
         },
         logging: {
@@ -31,7 +31,7 @@ AppModule = __decorate([
         description: 'Root application module',
         imports: [
             ConfigModule.forRoot(),
-            CalculatorModule
+            IdentityModule
         ],
         providers: [
             // Health Checks

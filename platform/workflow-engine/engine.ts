@@ -57,7 +57,7 @@ export class WorkflowEngine {
         console.log(`\n ⚖️  NyayaOS Workflow Running: ${workflow.id} (Exec ID: ${executionId})`);
         console.log(`========================================`);
 
-        for (const step of workflow.steps) {
+        const runStep = async (step: any) => {
             const agent = this.registry.get(step.agentName);
             context.metadata.currentStep = step.id;
 
@@ -91,6 +91,7 @@ export class WorkflowEngine {
                     payload: { stepId: step.id, agentName: step.agentName, executionId, output: result.output }
                 });
                 console.log(`   ✓ Completed step: ${step.id} in ${stepDuration}ms`);
+                return result;
             } else {
                 this.eventBus.emit({
                     type: 'WorkflowFailed',
@@ -102,8 +103,26 @@ export class WorkflowEngine {
                 if (step.required) {
                     throw new Error(`Critical workflow step ${step.id} (Agent: ${step.agentName}) failed.`);
                 }
+                return result;
             }
-        }
+        };
+
+        const validationSteps = workflow.steps.filter(s => s.id !== 'step-research');
+        const researchStep = workflow.steps.find(s => s.id === 'step-research');
+
+        const pipelinePromise = (async () => {
+            for (const step of validationSteps) {
+                await runStep(step);
+            }
+        })();
+
+        const researchPromise = (async () => {
+            if (researchStep) {
+                await runStep(researchStep);
+            }
+        })();
+
+        await Promise.all([pipelinePromise, researchPromise]);
 
         const totalDuration = Date.now() - startTime;
         this.eventBus.emit({

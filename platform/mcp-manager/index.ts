@@ -1,5 +1,6 @@
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { SSEClientTransport } from '@modelcontextprotocol/sdk/client/sse.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -8,7 +9,27 @@ const __dirname = path.dirname(__filename);
 
 export interface MCPConnection {
     client: Client;
-    transport: StdioClientTransport;
+    transport: any;
+}
+
+export class MCPTransportFactory {
+    static create(name: string, localPath: string) {
+        const envVarName = `${name.toUpperCase()}_MCP_URL`;
+        const productionUrl = process.env[envVarName];
+
+        if (productionUrl) {
+            console.log(`[MCPManager] Creating SSE Transport for ${name} pointing to: ${productionUrl}`);
+            return new SSEClientTransport(new URL(productionUrl));
+        }
+
+        // Fallback to local Stdio for developer ease
+        console.log(`[MCPManager] Creating Stdio Transport for ${name} pointing to: ${localPath}`);
+        return new StdioClientTransport({
+            command: 'node',
+            args: [localPath],
+            env: { ...process.env, NODE_ENV: 'development' }
+        });
+    }
 }
 
 export class MCPManager {
@@ -36,11 +57,7 @@ export class MCPManager {
             console.log(`Starting ${s.name} MCP Server...`);
             const serverPath = path.resolve(__dirname, s.relPath);
 
-            const transport = new StdioClientTransport({
-                command: 'node',
-                args: [serverPath],
-                env: { ...process.env, NODE_ENV: 'development' }
-            });
+            const transport = MCPTransportFactory.create(s.name, serverPath);
 
             const client = new Client(
                 {
@@ -53,6 +70,19 @@ export class MCPManager {
             );
 
             await client.connect(transport);
+
+            // Health verification with timeout
+            try {
+                await Promise.race([
+                    client.listTools(),
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('Connection listTools health check timed out.')), 3000))
+                ]);
+                console.log(`[MCPManager] Verified connection health for ${s.name} server.`);
+            } catch (err: any) {
+                console.error(`[MCPManager] Health verification failed for ${s.name}:`, err.message || err);
+                throw err;
+            }
+
             this.connections.set(s.name, {
                 client,
                 transport

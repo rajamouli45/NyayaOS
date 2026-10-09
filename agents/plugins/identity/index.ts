@@ -1,25 +1,17 @@
 import { Agent, AgentResult, WorkflowContext } from '../../../packages/contracts/src/index.js';
-import { MCPManager } from '../../../platform/mcp-manager/index.js';
+import { IdentityService } from '../../../platform/services/index.js';
 
 export class IdentityAgent implements Agent {
     name = 'IdentityAgent';
 
     async execute(context: WorkflowContext): Promise<AgentResult> {
-        const client = MCPManager.getInstance().getClient('identity');
-
         const inputDelta = context.memory.get('inputDelta') || {};
         if (inputDelta.demoProfile === 'identity_failure') {
             throw new Error("Identity Verification Mismatch: Submitted citizen ID record details do not match national bio-database record.");
         }
 
         // Call verifyIdentity
-        const verifyRes = await client.callTool({
-            name: 'verifyIdentity',
-            arguments: { citizenId: context.citizenId }
-        });
-
-        // @ts-ignore
-        const vData: any = verifyRes.content?.[0] ? JSON.parse(verifyRes.content[0].text || '{}') : {};
+        const vData = await IdentityService.verifyIdentity(context.citizenId);
 
         if (!vData.success) {
             return {
@@ -32,20 +24,10 @@ export class IdentityAgent implements Agent {
 
         // Call validateCitizen
         const address = vData.data.address || '';
-        const validateRes = await client.callTool({
-            name: 'validateCitizen',
-            arguments: { citizenId: context.citizenId, address }
-        });
-        // @ts-ignore
-        const valData: any = validateRes.content?.[0] ? JSON.parse(validateRes.content[0].text || '{}') : {};
+        const valData = await IdentityService.validateCitizen(context.citizenId, address);
 
         // Call extractProfile
-        const extractRes = await client.callTool({
-            name: 'extractProfile',
-            arguments: { citizenId: context.citizenId }
-        });
-        // @ts-ignore
-        const extData: any = extractRes.content?.[0] ? JSON.parse(extractRes.content[0].text || '{}') : {};
+        const extData = await IdentityService.extractProfile(context.citizenId);
 
         // Record in shared memory context
         context.memory.set('identity', {

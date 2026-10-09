@@ -4,3 +4,8 @@ dist
 .next
 .turbo
 coverage
+
+*.log
+.env
+
+db.json

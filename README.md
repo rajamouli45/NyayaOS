@@ -87,7 +87,7 @@ Ensure you have **Node.js >= 20.18.x** and **npm** installed.
 
 ### 1. Install Dependencies
 ```bash
-npm install
+pnpm install
 ```
 
 ### 2. Environment Variables (.env)
@@ -102,12 +102,12 @@ Default parameters inside `.env`:
 
 ### 3. Build Project Modules
 ```bash
-npm run build
+pnpm run build
 ```
 
 ### 4. Boot Express Server
 ```bash
-npm run api
+pnpm run api
 ```
 
 #### Application Links:

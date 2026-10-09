@@ -1,4 +1,4 @@
-import { MCPManager } from '../../../platform/mcp-manager/index.js';
+import { RegistryService } from '../../../platform/services/index.js';
 export class RegistryAgent {
     name = 'RegistryAgent';
     async execute(context) {
@@ -10,7 +10,6 @@ export class RegistryAgent {
                 explanation: 'Failed: Core land deeds verification is missing.'
             };
         }
-        const client = MCPManager.getInstance().getClient('registry');
         const inputDelta = context.memory.get('inputDelta') || {};
         if (inputDelta.demoProfile === 'wrong_jurisdiction') {
             throw new Error("Registry Location Mismatch: Disputed plot registry entry sits under Maharashtra State territorial administration. Suggested Court Node: Mumbai Land Tribunal.");
@@ -21,37 +20,14 @@ export class RegistryAgent {
         const plotId = inputDelta.plotId || docState.plotId || 'plot-7412A';
         const location = inputDelta.location || 'Bengaluru, Karnataka';
         // Call checkJurisdiction
-        const jurisRes = await client.callTool({
-            name: 'checkJurisdiction',
-            arguments: {
-                plotId,
-                location
-            }
-        });
-        // @ts-ignore
-        const jrData = jurisRes.content?.[0] ? JSON.parse(jurisRes.content[0].text || '{}') : {};
+        const jrData = await RegistryService.checkJurisdiction(plotId, location);
         // Call checkDuplicateFiling
-        const dupRes = await client.callTool({
-            name: 'checkDuplicateFiling',
-            arguments: {
-                citizenId: context.citizenId,
-                plotId
-            }
-        });
-        // @ts-ignore
-        const dpData = dupRes.content?.[0] ? JSON.parse(dupRes.content[0].text || '{}') : {};
+        const dpData = await RegistryService.checkDuplicateFiling(context.citizenId, plotId);
         // Call checkCompleteness
-        const completeRes = await client.callTool({
-            name: 'checkCompleteness',
-            arguments: {
-                caseData: {
-                    identityVerified: true,
-                    documentVerified: docState.deedVerified
-                }
-            }
+        const cpData = await RegistryService.checkCompleteness({
+            identityVerified: true,
+            documentVerified: docState.deedVerified
         });
-        // @ts-ignore
-        const cpData = completeRes.content?.[0] ? JSON.parse(completeRes.content[0].text || '{}') : {};
         // Record in shared memory
         context.memory.set('registry', {
             registered: true,

@@ -1,5 +1,5 @@
 import { McpApp, Module, ConfigModule } from '@nitrostack/core';
-import { CalculatorModule } from './modules/calculator/calculator.module.js';
+import { IdentityModule } from './modules/identity/identity.module.js';
 import { SystemHealthCheck } from './health/system.health.js';
 
 /**
@@ -11,7 +11,7 @@ import { SystemHealthCheck } from './health/system.health.js';
 @McpApp({
   module: AppModule,
   server: {
-    name: 'calculator-server',
+    name: 'identity-server',
     version: '1.0.0'
   },
   logging: {
@@ -23,12 +23,12 @@ import { SystemHealthCheck } from './health/system.health.js';
   description: 'Root application module',
   imports: [
     ConfigModule.forRoot(),
-    CalculatorModule
+    IdentityModule
   ],
   providers: [
     // Health Checks
     SystemHealthCheck,
   ]
 })
-export class AppModule {}
+export class AppModule { }
 

@@ -2,7 +2,15 @@
     "name": "nyayaos",
     "version": "0.1.0",
     "private": true,
+    "workspaces": [
+        "apps/*",
+        "platform/*",
+        "packages/*",
+        "agents/*",
+        "mcp/*"
+    ],
     "scripts": {
+        "start": "node scripts/start.js",
         "dev": "node platform/index.js",
         "api": "node packages/api/src/index.js",
         "build": "tsc --build",

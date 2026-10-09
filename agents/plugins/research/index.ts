@@ -1,33 +1,18 @@
 import { Agent, AgentResult, WorkflowContext } from '../../../packages/contracts/src/index.js';
-import { MCPManager } from '../../../platform/mcp-manager/index.js';
+import { LegalResearchService } from '../../../platform/services/index.js';
 
 export class ResearchAgent implements Agent {
     name = 'ResearchAgent';
 
     async execute(context: WorkflowContext): Promise<AgentResult> {
-        const client = MCPManager.getInstance().getClient('research');
-
         const inputDelta = context.memory.get('inputDelta') || {};
         const query = inputDelta.disputeDescription || 'title dispute possession';
 
         // Call searchPrecedents
-        const appealRes = await client.callTool({
-            name: 'searchPrecedents',
-            arguments: { query }
-        });
-        // @ts-ignore
-        const apData: any = appealRes.content?.[0] ? JSON.parse(appealRes.content[0].text || '{}') : {};
+        const apData = await LegalResearchService.searchPrecedents(query);
 
         // Call getStatute
-        const actRes = await client.callTool({
-            name: 'getStatute',
-            arguments: {
-                actName: 'Specific Relief Act',
-                sectionId: '6'
-            }
-        });
-        // @ts-ignore
-        const acData: any = actRes.content?.[0] ? JSON.parse(actRes.content[0].text || '{}') : {};
+        const acData = await LegalResearchService.getStatute('Specific Relief Act', '6');
 
         // Record in shared memory
         context.memory.set('research', {
